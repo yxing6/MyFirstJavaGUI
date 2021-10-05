@@ -15,34 +15,6 @@ public class TravelList {
 
     // REQUIRES: travelCost > 0
     // MODIFIES: this
-    // EFFECTS: adds a new country to the visitedList and remove this country from bucketList
-    public void addCountryVisited(String countryCode, String countryName, int travelCost) {
-        // stub
-    }
-
-    // EFFECTS: return a list of strings represent the countries on the bucketList
-    public List<String> countriesVisited() {
-        List<String> countryNames = new ArrayList<>();
-        // stub
-        return countryNames;
-    }
-
-    // EFFECTS: return the total number of countries visited.
-    public int numCountiesVisited() {
-        // stud
-        return 0;
-    }
-
-    // EFFECTS: return the total money spent on travelling
-    public int moneySpentOnTravel() {
-        // stud
-        return 0;
-    }
-
-
-
-    // REQUIRES: travelCost > 0
-    // MODIFIES: this
     // EFFECTS: adds a new country to the bucketList
     public void addCountryToGo(String countryCode, String countryName, int travelCost) {
         // stub
@@ -66,4 +38,32 @@ public class TravelList {
         // stud
         return 0;
     }
+
+    // REQUIRES: travelCost > 0
+    // MODIFIES: this
+    // EFFECTS: adds a new country to the visitedList and
+    //          if the country is on the bucket list remove this country from bucketList
+    public void addCountryVisited(String countryCode, String countryName, int travelCost) {
+        // stub
+    }
+
+    // EFFECTS: return a list of strings represent the countries on the bucketList
+    public List<String> countriesVisited() {
+        List<String> countryNames = new ArrayList<>();
+        // stub
+        return countryNames;
+    }
+
+    // EFFECTS: return the total number of countries visited.
+    public int numCountiesVisited() {
+        // stud
+        return 0;
+    }
+
+    // EFFECTS: return the total money spent on travelling
+    public int moneySpentOnTravel() {
+        // stud
+        return 0;
+    }
+
 }

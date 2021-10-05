@@ -15,7 +15,7 @@ I help you to track the cost spent on past travels and money you need to save fo
 ---  
 
 
-This project tracks travel history and potentially build a world map illustrates the travel history and travel plan.  
+This project tracks travel history and potentially builds a world map to illustrate the travel history and travel plan.  
 Any travellers can use this to track their budgets.  
 I am interested in this project because I want to travel around the world!  
 
