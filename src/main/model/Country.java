@@ -14,6 +14,11 @@ public class Country {
         this.travelCost = travelCost;
     }
 
+    // EFFECTS: return the country name
+    public String getCountryName() {
+        return countryName;
+    }
+
 
     // EFFECTS: return the unique countryCode
     public String getCountryCode() {

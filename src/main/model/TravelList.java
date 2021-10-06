@@ -17,26 +17,31 @@ public class TravelList {
     // MODIFIES: this
     // EFFECTS: adds a new country to the bucketList
     public void addCountryToGo(String countryCode, String countryName, int travelCost) {
-        // stub
+        Country country = new Country(countryCode, countryName, travelCost);
+        bucketList.add(country);
     }
 
     // EFFECTS: return a list of strings represent the countries on the bucketList
     public List<String> countriesToGo() {
         List<String> countryNames = new ArrayList<>();
-        // stub
+        for (Country next: bucketList) {
+            countryNames.add(next.getCountryName());
+        }
         return countryNames;
     }
 
     // EFFECTS: return the total number of countries in bucketList.
     public int numCountiesToGo() {
-        // stud
-        return 0;
+        return bucketList.size();
     }
 
     // EFFECTS: return the total money need to save for future travelling
     public int moneyNeedToSave() {
-        // stud
-        return 0;
+        int totalMoney = 0;
+        for (Country next: bucketList) {
+            totalMoney += next.getCost();
+        }
+        return totalMoney;
     }
 
     // REQUIRES: travelCost > 0
@@ -44,26 +49,32 @@ public class TravelList {
     // EFFECTS: adds a new country to the visitedList and
     //          if the country is on the bucket list remove this country from bucketList
     public void addCountryVisited(String countryCode, String countryName, int travelCost) {
-        // stub
+        Country country = new Country(countryCode, countryName, travelCost);
+        visitedList.add(country);
+        bucketList.remove(country);
     }
 
     // EFFECTS: return a list of strings represent the countries on the bucketList
     public List<String> countriesVisited() {
         List<String> countryNames = new ArrayList<>();
-        // stub
+        for (Country next: visitedList) {
+            countryNames.add(next.getCountryName());
+        }
         return countryNames;
     }
 
     // EFFECTS: return the total number of countries visited.
     public int numCountiesVisited() {
-        // stud
-        return 0;
+        return visitedList.size();
     }
 
     // EFFECTS: return the total money spent on travelling
     public int moneySpentOnTravel() {
-        // stud
-        return 0;
+        int totalMoney = 0;
+        for (Country next: visitedList) {
+            totalMoney += next.getCost();
+        }
+        return totalMoney;
     }
 
 }

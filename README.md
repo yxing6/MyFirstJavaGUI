@@ -26,7 +26,7 @@ I am interested in this project because I want to travel around the world!
 
 ### Phase 1  
 
-- As a user, I want to be able to add a country name to my travel bucket list.  
+- As a user, I want to be able to add multiple countries to my travel list.  
 - As a user, I want to be able to view my travel bucket list.  
 - As a user, I want to update my travel record after I completed my trip.  
     - This means add the country to the completed list, and remove the country from bucket list.  
