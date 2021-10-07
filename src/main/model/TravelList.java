@@ -8,23 +8,18 @@ public class TravelList {
     private List<Country> bucketList;
     private List<Country> visitedList;
 
+    // EFFECTS: construct a travelList with empty bucketList and visitedList
     public TravelList() {
         bucketList = new ArrayList<>();
         visitedList = new ArrayList<>();
     }
 
 
-    // helper
-    // not really helping right now
-    public Country newCountry(String countryCode, String countryName, int travelCost) {
-        return new Country(countryCode, countryName, travelCost);
-    }
-
     // REQUIRES: travelCost > 0
     // MODIFIES: this
     // EFFECTS: adds a new country to the bucketList
     public void addCountryToGo(String countryCode, String countryName, int travelCost) {
-        Country country = newCountry(countryCode, countryName, travelCost);
+        Country country = new Country(countryCode, countryName, travelCost);
         bucketList.add(country);
     }
 
@@ -34,11 +29,10 @@ public class TravelList {
     // EFFECTS: adds a new country to the visitedList and
     //          if the country is on the bucket list remove this country from bucketList
     public void addCountryVisited(String countryCode, String countryName, int travelCost) {
-        Country country = newCountry(countryCode, countryName, travelCost);
+        Country country = new Country(countryCode, countryName, travelCost);
         visitedList.add(country);
         List<String> names = countriesToGo();
         if (names.contains(countryName)) {
-            //bucketList.remove(country);
             int index = names.indexOf(countryName);
             bucketList.remove(index);
         }
@@ -79,6 +73,7 @@ public class TravelList {
     public int numCountiesVisited() {
         return visitedList.size();
     }
+
 
     // helper method
     // EFFECTS: return the total travel cost of a list of Countries
