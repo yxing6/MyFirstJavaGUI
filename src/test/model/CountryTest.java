@@ -1,5 +1,6 @@
 package model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,21 +9,28 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CountryTest {
     Country country;
 
+    @BeforeEach
+    void setup() {
+        country = new Country("CAD", "Canada", 5000);
+    }
+
+    @Test
+    void testGetCountryName() {
+        assertEquals("Canada", country.getCountryName());
+    }
+
     @Test
     void testGetCountryCode() {
-        country = new Country("CAD", "Canada", 5000);
         assertEquals("CAD", country.getCountryCode());
     }
 
     @Test
     void testGetCost() {
-        country = new Country("CAD", "Canada", 5000);
         assertEquals(5000, country.getCost());
     }
 
     @Test
     void testChangeCost() {
-        country = new Country("CAD", "Canada", 5000);
         country.changeCost(6500);
         assertEquals(6500, country.getCost());
     }

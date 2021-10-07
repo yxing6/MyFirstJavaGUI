@@ -13,68 +13,93 @@ public class TravelList {
         visitedList = new ArrayList<>();
     }
 
+
+    // helper
+    // not really helping right now
+    public Country newCountry(String countryCode, String countryName, int travelCost) {
+        return new Country(countryCode, countryName, travelCost);
+    }
+
     // REQUIRES: travelCost > 0
     // MODIFIES: this
     // EFFECTS: adds a new country to the bucketList
     public void addCountryToGo(String countryCode, String countryName, int travelCost) {
-        Country country = new Country(countryCode, countryName, travelCost);
+        Country country = newCountry(countryCode, countryName, travelCost);
         bucketList.add(country);
     }
 
-    // EFFECTS: return a list of strings represent the countries on the bucketList
-    public List<String> countriesToGo() {
-        List<String> countryNames = new ArrayList<>();
-        for (Country next: bucketList) {
-            countryNames.add(next.getCountryName());
-        }
-        return countryNames;
-    }
-
-    // EFFECTS: return the total number of countries in bucketList.
-    public int numCountiesToGo() {
-        return bucketList.size();
-    }
-
-    // EFFECTS: return the total money need to save for future travelling
-    public int moneyNeedToSave() {
-        int totalMoney = 0;
-        for (Country next: bucketList) {
-            totalMoney += next.getCost();
-        }
-        return totalMoney;
-    }
 
     // REQUIRES: travelCost > 0
     // MODIFIES: this
     // EFFECTS: adds a new country to the visitedList and
     //          if the country is on the bucket list remove this country from bucketList
     public void addCountryVisited(String countryCode, String countryName, int travelCost) {
-        Country country = new Country(countryCode, countryName, travelCost);
+        Country country = newCountry(countryCode, countryName, travelCost);
         visitedList.add(country);
-        bucketList.remove(country);
+        List<String> names = countriesToGo();
+        if (names.contains(countryName)) {
+            //bucketList.remove(country);
+            int index = names.indexOf(countryName);
+            bucketList.remove(index);
+        }
     }
 
-    // EFFECTS: return a list of strings represent the countries on the bucketList
-    public List<String> countriesVisited() {
-        List<String> countryNames = new ArrayList<>();
-        for (Country next: visitedList) {
-            countryNames.add(next.getCountryName());
+
+    // a helper method
+    // EFFECTS: return a list of country names on a list of Countries
+    public List<String> countriesNames(List<Country> list) {
+        List<String> names = new ArrayList<>();
+        for (Country next: list) {
+            names.add(next.getCountryName());
         }
-        return countryNames;
+        return names;
     }
+
+
+    // EFFECTS: return a list of strings represent the countries on the bucketList
+    public List<String> countriesToGo() {
+        return countriesNames(bucketList);
+    }
+
+
+    // EFFECTS: return a list of strings represent the countries on the visitedList
+    public List<String> countriesVisited() {
+        return countriesNames(visitedList);
+    }
+
+
+
+    // EFFECTS: return the total number of countries in bucketList.
+    public int numCountiesToGo() {
+        return bucketList.size();
+    }
+
 
     // EFFECTS: return the total number of countries visited.
     public int numCountiesVisited() {
         return visitedList.size();
     }
 
-    // EFFECTS: return the total money spent on travelling
-    public int moneySpentOnTravel() {
+    // helper method
+    // EFFECTS: return the total travel cost of a list of Countries
+    public int travelCost(List<Country> list) {
         int totalMoney = 0;
-        for (Country next: visitedList) {
+        for (Country next: list) {
             totalMoney += next.getCost();
         }
         return totalMoney;
+    }
+
+
+    // EFFECTS: return the total money need to save for future travelling
+    public int moneyNeedToSave() {
+        return travelCost(bucketList);
+    }
+
+
+    // EFFECTS: return the total money spent on travelling
+    public int moneySpentOnTravel() {
+        return travelCost(visitedList);
     }
 
 }

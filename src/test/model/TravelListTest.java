@@ -3,6 +3,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TravelListTest {
@@ -32,7 +34,8 @@ class TravelListTest {
         travelList.addCountryToGo("CAD", "Canada", 5000);
         travelList.addCountryToGo("CHN", "China", 6000);
         travelList.addCountryToGo("BEL", "Belgium", 5000);
-        assertFalse(travelList.countriesToGo().isEmpty());
+        List<String> list = travelList.countriesToGo();
+        assertFalse(list.isEmpty());
         assertEquals(3, travelList.numCountiesToGo());
         assertEquals(16000, travelList.moneyNeedToSave());
     }
@@ -76,6 +79,7 @@ class TravelListTest {
         assertEquals(0, travelList.moneyNeedToSave());
     }
 
+    @Test
     void testAddMoreCountryVisitedTypical() {
         travelList.addCountryToGo("CAD", "Canada", 5000);
         travelList.addCountryToGo("CHN", "China", 6000);
