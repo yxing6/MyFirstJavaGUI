@@ -92,7 +92,7 @@ class TravelListTest {
 
 
     @Test
-    void testAddOneCountryVisitedOnEmpty() {
+    void testAddCountryVisitedWithUnique() {
         assertTrue(travelList.countriesVisited().isEmpty());
         assertEquals(0, travelList.numCountiesVisited());
         assertEquals(0, travelList.moneySpentOnTravel());
@@ -105,7 +105,7 @@ class TravelListTest {
 
 
     @Test
-    void testAddMoreCountryVisitedOnEmpty() {
+    void testAddCountryVisitedWithExisting() {
         assertTrue(travelList.countriesVisited().isEmpty());
         assertEquals(0, travelList.numCountiesVisited());
         assertEquals(0, travelList.moneySpentOnTravel());
@@ -118,6 +118,11 @@ class TravelListTest {
         assertFalse(travelList.countriesVisited().isEmpty());
         assertEquals(3, travelList.numCountiesVisited());
         assertEquals(16000, travelList.moneySpentOnTravel());
+        Country countryD = travelList.newCountry("CHN", "China", 4000);
+        Boolean result = travelList.addCountryVisited(countryD);
+        assertEquals(3, travelList.numCountiesVisited());
+        assertEquals(20000, travelList.moneySpentOnTravel());
+
     }
 
     @Test

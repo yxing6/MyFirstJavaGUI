@@ -3,16 +3,45 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/* CPSC 210 Term Project:
+ * Travel Record
+ * Author: Yun Xing
+ * Date: October 10, 2021
+
+ * TravelList contain two lists:
+ * one is bucket list - containing countries the user wish to go in the future
+ * one is visited list - containing countries the user have been to in the past
+
+ * In bucket list:
+ * countries can be added or removed from this list
+ * countries need to be unique
+ * In UI, if a user trying to add an existing country onto the bucket list, an error message will display
+ * In UI, if a user trying to delete a country that is not ont the bucket list, an error message will display
+
+ * In visited list:
+ * countries can be added but not removed from this list
+ * countries need to be unique
+ * If a user went to the same country twice, no new country will be added, but the travel cost will be updated
+ * If a user went to a country that exist on the bucket list, this country will be removed from the bucket list
+
+ * For both lists, a user will be able to
+ * - view all the country names
+ * - get number of countries on the list and
+ * - get the total travel cost
+ */
+
 public class TravelList {
 
     private List<Country> bucketList;
     private List<Country> visitedList;
+
 
     // EFFECTS: construct a travelList with empty bucketList and visitedList
     public TravelList() {
         bucketList = new ArrayList<>();
         visitedList = new ArrayList<>();
     }
+
 
     // REQUIRES: travelCost > 0
     // EFFECTS:  to create a new country to be added or deleted from travel lists.
@@ -22,7 +51,8 @@ public class TravelList {
 
 
     // MODIFIES: this
-    // EFFECTS: if the country is not on the bucket list, add the country to the bucketList and return true
+    // EFFECTS: a country can only on be present on the bucket list once
+    //          if the country is not on the bucket list, add the country to the bucketList and return true
     //          if the country is on the bucket list, return false
     public boolean addCountryToGo(Country country) {
         List<String> names = countriesToGo();
