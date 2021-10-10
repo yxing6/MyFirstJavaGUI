@@ -20,11 +20,19 @@ public class TravelList {
         return new Country(countryCode, countryName, travelCost);
     }
 
-    // REQUIRES: travelCost > 0
+
     // MODIFIES: this
-    // EFFECTS: adds a new country to the bucketList
-    public void addCountryToGo(Country country) {
-        bucketList.add(country);
+    // EFFECTS: if the country is not on the bucket list, add the country to the bucketList and return true
+    //          if the country is on the bucket list, return false
+    public boolean addCountryToGo(Country country) {
+        List<String> names = countriesToGo();
+        String countryName = country.getCountryName();
+        if (names.contains(countryName)) {
+            return false;
+        } else {
+            bucketList.add(country);
+            return true;
+        }
     }
 
 
@@ -44,13 +52,25 @@ public class TravelList {
     }
 
 
-    // REQUIRES: travelCost > 0
     // MODIFIES: this
-    // EFFECTS: adds a new country to the visitedList and
-    //          if the country is on the bucket list remove this country from bucketList
-    public void addCountryVisited(Country country) {
-        visitedList.add(country);
+    // EFFECTS: if the country is on the bucket list remove this country from bucketList
+    //          if the country is on the visitedList, only update the travel cost return false
+    //          if the country is not on the visitedList, add this new country to the visitedList return true
+    public boolean addCountryVisited(Country country) {
+        List<String> names = countriesVisited();
+        String countryName = country.getCountryName();
         deleteCountryToGo(country);
+        if (names.contains(countryName)) {
+            int index = names.indexOf(countryName);         // find the index of object and modify its fields
+            int oldCost = visitedList.get(index).getCost();
+            int newCost = country.getCost();
+            int totalCost = oldCost + newCost;
+            visitedList.get(index).changeCost(totalCost);
+            return false;
+        } else {
+            visitedList.add(country);
+            return true;
+        }
     }
 
 
