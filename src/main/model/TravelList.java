@@ -14,12 +14,16 @@ public class TravelList {
         visitedList = new ArrayList<>();
     }
 
+    // REQUIRES: travelCost > 0
+    // EFFECTS:  to create a new country to be added or deleted from travel lists.
+    public Country newCountry(String countryCode, String countryName, int travelCost) {
+        return new Country(countryCode, countryName, travelCost);
+    }
 
     // REQUIRES: travelCost > 0
     // MODIFIES: this
     // EFFECTS: adds a new country to the bucketList
-    public void addCountryToGo(String countryCode, String countryName, int travelCost) {
-        Country country = new Country(countryCode, countryName, travelCost);
+    public void addCountryToGo(Country country) {
         bucketList.add(country);
     }
 
@@ -27,8 +31,9 @@ public class TravelList {
     // MODIFIES: this
     // EFFECTS: if the country is on the bucket list, delete a country from the bucket list and return true
     //          if the country is not on the bucket list, return false
-    public boolean deleteCountryToGo(String countryName) {
+    public boolean deleteCountryToGo(Country country) {
         List<String> names = countriesToGo();
+        String countryName = country.getCountryName();
         if (names.contains(countryName)) {
             int index = names.indexOf(countryName);
             bucketList.remove(index);
@@ -43,10 +48,9 @@ public class TravelList {
     // MODIFIES: this
     // EFFECTS: adds a new country to the visitedList and
     //          if the country is on the bucket list remove this country from bucketList
-    public void addCountryVisited(String countryCode, String countryName, int travelCost) {
-        Country country = new Country(countryCode, countryName, travelCost);
+    public void addCountryVisited(Country country) {
         visitedList.add(country);
-        deleteCountryToGo(countryName);
+        deleteCountryToGo(country);
     }
 
 
