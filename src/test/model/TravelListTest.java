@@ -26,6 +26,20 @@ class TravelListTest {
         assertEquals(5000, travelList.moneyNeedToSave());
     }
 
+
+    @Test
+    void testDeleteOneCountryToGo() {
+        assertTrue(travelList.countriesToGo().isEmpty());
+        assertEquals(0, travelList.numCountiesToGo());
+        assertEquals(0, travelList.moneyNeedToSave());
+        travelList.addCountryToGo("CAD", "Canada", 5000);
+        travelList.deleteCountryToGo("Canada");
+        assertTrue(travelList.countriesToGo().isEmpty());
+        assertEquals(0, travelList.numCountiesToGo());
+        assertEquals(0, travelList.moneyNeedToSave());
+    }
+
+
     @Test
     void testAddMoreCountryToGo() {
         assertTrue(travelList.countriesToGo().isEmpty());
