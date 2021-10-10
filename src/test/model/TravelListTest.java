@@ -16,15 +16,30 @@ class TravelListTest {
     }
 
     @Test
-    void testAddOneCountryToGo() {
+    void testAddOneCountryToGoOnEmpty() {
         assertTrue(travelList.countriesToGo().isEmpty());
         assertEquals(0, travelList.numCountiesToGo());
         assertEquals(0, travelList.moneyNeedToSave());
         Country countryA = travelList.newCountry("CAD", "Canada", 5000);
-        travelList.addCountryToGo(countryA);
+        Boolean result = travelList.addCountryToGo(countryA);
+        assertTrue(result);
         assertFalse(travelList.countriesToGo().isEmpty());
         assertEquals(1, travelList.numCountiesToGo());
         assertEquals(5000, travelList.moneyNeedToSave());
+    }
+
+
+    @Test
+    void testAddOneCountryToGoWithExistingCountry() {
+        assertTrue(travelList.countriesToGo().isEmpty());
+        assertEquals(0, travelList.numCountiesToGo());
+        assertEquals(0, travelList.moneyNeedToSave());
+        Country countryA = travelList.newCountry("CAD", "Canada", 5000);
+        Boolean resultA = travelList.addCountryToGo(countryA);
+        assertTrue(resultA);
+        Country countryB = travelList.newCountry("CAD", "Canada", 6000);
+        Boolean resultB = travelList.addCountryToGo(countryB);
+        assertFalse(resultB);
     }
 
 
@@ -39,6 +54,22 @@ class TravelListTest {
         assertTrue(travelList.countriesToGo().isEmpty());
         assertEquals(0, travelList.numCountiesToGo());
         assertEquals(0, travelList.moneyNeedToSave());
+    }
+
+
+    @Test
+    void testDeleteCountryToGoWithNonExistingCountry() {
+        assertTrue(travelList.countriesToGo().isEmpty());
+        assertEquals(0, travelList.numCountiesToGo());
+        assertEquals(0, travelList.moneyNeedToSave());
+        Country countryA = travelList.newCountry("CAD", "Canada", 5000);
+        travelList.addCountryToGo(countryA);
+        assertFalse(travelList.countriesToGo().isEmpty());
+        assertEquals(1, travelList.numCountiesToGo());
+        assertEquals(5000, travelList.moneyNeedToSave());
+        Country countryB = travelList.newCountry("CHN", "China", 5000);
+        Boolean result = travelList.deleteCountryToGo(countryB);
+        assertFalse(result);
     }
 
 
@@ -58,6 +89,7 @@ class TravelListTest {
         assertEquals(3, travelList.numCountiesToGo());
         assertEquals(16000, travelList.moneyNeedToSave());
     }
+
 
     @Test
     void testAddOneCountryVisitedOnEmpty() {
