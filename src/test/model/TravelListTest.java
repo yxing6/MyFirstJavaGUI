@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TravelListTest {
 
-    // blank commit to resolve push issue
     TravelList travelList;
 
     @BeforeEach
