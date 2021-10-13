@@ -161,10 +161,16 @@ public class MyTravelApp {
 
     private void modifyBucketListAdd() {
         Country myCountry;
+        Boolean result;
 
         myCountry = createCountry();
-        travelList.addCountryToGo(myCountry);
-        System.out.println("\n\t\t\tThis country has been added on to your bucket list!");
+        result = travelList.addCountryToGo(myCountry);
+        if (result) {
+            System.out.println("\n\t\t\tThis new country has been added on to your bucket list!");
+        } else {
+            System.out.println("\n\t\t\tThis country exist on your bucket list already :), plan to go there soon!");
+        }
+
     }
 
     private void modifyBucketListDelete() {
@@ -183,13 +189,14 @@ public class MyTravelApp {
 
     private void modifyVisitedList() {
         Country myCountry;
-
-        System.out.println("\n\t\tI can definitely add this country to your visited list!");
+        Boolean result;
 
         myCountry = createCountry();
-        travelList.addCountryVisited(myCountry);
-
-        System.out.println("\n\t\t\tYay! This country has been added to your visit list!");
+        result = travelList.addCountryVisited(myCountry);
+        if (result) {
+            System.out.println("\n\t\t\tYay! This country has been added to your visit list!");
+        } else {
+            System.out.println("\n\t\t\tYou have been to this country before, I only updated your travel cost.");
+        }
     }
-
 }
