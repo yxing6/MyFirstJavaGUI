@@ -6,7 +6,8 @@ public class Country {
     private String countryName;
     private int travelCost;
 
-    //REQUIRED: countryCode need to be a three letter String in CAPITAL contained in CountryCodeList
+    //REQUIRED: countryCode need to be the ISO alpha-3 country code in Capital
+    //          travelCost should be a positive integer value
     // EFFECTS: constructs a country with associated code and trip cost
     public Country(String countryCode, String countryName, int travelCost) {
         this.countryCode = countryCode;

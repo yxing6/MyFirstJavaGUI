@@ -130,9 +130,15 @@ public class MyTravelApp {
         System.out.println("\t\t\tEnter the country name: ");
         System.out.print("\t\t\t");
         countryName = input.next();
-        System.out.println("\t\t\tEnter the travel cost as an integer: ");
+        System.out.println("\t\t\tEnter the travel cost as an positive integer: ");
         System.out.print("\t\t\t");
         travelCost = input.nextInt();
+
+        if (travelCost <= 0) {
+            System.out.println("\t\t\tEnter the travel cost as an POSITIVE integer: ");
+            System.out.print("\t\t\t");
+            travelCost = input.nextInt();
+        }
 
         myCountry = travelList.newCountry(countryCode, countryName, travelCost);
         return myCountry;

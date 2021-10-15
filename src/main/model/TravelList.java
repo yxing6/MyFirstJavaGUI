@@ -44,7 +44,8 @@ public class TravelList {
     }
 
 
-    // REQUIRES: travelCost > 0
+    // REQUIRES: country code is the ISO alpha-3 country code
+    //           travelCost > 0
     // EFFECTS:  to create a new country to be added or deleted from travel lists.
     public Country newCountry(String countryCode, String countryName, int travelCost) {
         return new Country(countryCode, countryName, travelCost);
