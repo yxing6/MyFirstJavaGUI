@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 
 // Travel info application
+// This UI is built with reference to the TellAPP application
+
 public class MyTravelApp {
     private TravelList travelList;
     private Scanner input;
@@ -167,7 +169,7 @@ public class MyTravelApp {
 
     private void modifyBucketListAdd() {
         Country myCountry;
-        Boolean result;
+        boolean result;
 
         myCountry = createCountry();
         result = travelList.addCountryToGo(myCountry);
@@ -181,7 +183,7 @@ public class MyTravelApp {
 
     private void modifyBucketListDelete() {
         Country myCountry;
-        Boolean result;
+        boolean result;
 
         myCountry = createCountry();
         result = travelList.deleteCountryToGo(myCountry);
@@ -195,7 +197,7 @@ public class MyTravelApp {
 
     private void modifyVisitedList() {
         Country myCountry;
-        Boolean result;
+        boolean result;
 
         myCountry = createCountry();
         result = travelList.addCountryVisited(myCountry);

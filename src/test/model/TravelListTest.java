@@ -22,7 +22,7 @@ class TravelListTest {
         assertEquals(0, travelList.numCountiesToGo());
         assertEquals(0, travelList.moneyNeedToSave());
         Country countryA = travelList.newCountry("CAD", "Canada", 5000);
-        Boolean result = travelList.addCountryToGo(countryA);
+        boolean result = travelList.addCountryToGo(countryA);
         assertTrue(result);
         assertFalse(travelList.countriesToGo().isEmpty());
         assertEquals(1, travelList.numCountiesToGo());
@@ -36,16 +36,17 @@ class TravelListTest {
         assertEquals(0, travelList.numCountiesToGo());
         assertEquals(0, travelList.moneyNeedToSave());
         Country countryA = travelList.newCountry("CAD", "Canada", 5000);
-        Boolean resultA = travelList.addCountryToGo(countryA);
+        boolean resultA = travelList.addCountryToGo(countryA);
         assertTrue(resultA);
         Country countryB = travelList.newCountry("CAD", "Canada", 6000);
-        Boolean resultB = travelList.addCountryToGo(countryB);
+        boolean resultB = travelList.addCountryToGo(countryB);
         assertFalse(resultB);
     }
 
 
     @Test
     void testDeleteOneCountryToGo() {
+        // commit test
         assertTrue(travelList.countriesToGo().isEmpty());
         assertEquals(0, travelList.numCountiesToGo());
         assertEquals(0, travelList.moneyNeedToSave());
@@ -69,7 +70,7 @@ class TravelListTest {
         assertEquals(1, travelList.numCountiesToGo());
         assertEquals(5000, travelList.moneyNeedToSave());
         Country countryB = travelList.newCountry("CHN", "China", 5000);
-        Boolean result = travelList.deleteCountryToGo(countryB);
+        boolean result = travelList.deleteCountryToGo(countryB);
         assertFalse(result);
     }
 
@@ -120,7 +121,7 @@ class TravelListTest {
         assertEquals(3, travelList.numCountiesVisited());
         assertEquals(16000, travelList.moneySpentOnTravel());
         Country countryD = travelList.newCountry("CHN", "China", 4000);
-        Boolean result = travelList.addCountryVisited(countryD);
+        boolean result = travelList.addCountryVisited(countryD);
         assertEquals(3, travelList.numCountiesVisited());
         assertEquals(20000, travelList.moneySpentOnTravel());
 
