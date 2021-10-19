@@ -75,23 +75,23 @@ public class MyTravelApp {
 
     private void viewTravelList() {
 
-        if (travelList.numCountiesVisited() == 0) {
+        if (travelList.numCountriesVisited() == 0) {
             System.out.println("\n\tYour visited list is empty. You haven't been to any countries... not yet!");
         } else {
             String countriesVisited = travelList.countriesVisited().toString();
             System.out.println("\n\tThe countries on your visited list are:" + countriesVisited);
-            int numberOfCountry = travelList.numCountiesVisited();
+            int numberOfCountry = travelList.numCountriesVisited();
             System.out.println("\tYou have visited " + numberOfCountry + " countries!");
             int moneySpent = travelList.moneySpentOnTravel();
             System.out.println("\tThe money you have spent on travel is: $" + moneySpent);
         }
 
-        if (travelList.numCountiesToGo() == 0) {
+        if (travelList.numCountriesToGo() == 0) {
             System.out.println("\n\tYour bucket list is empty. Explore where you want to go!");
         } else {
             String countriesToGo = travelList.countriesToGo().toString();
             System.out.println("\n\tThe countries on your bucket list are:" + countriesToGo);
-            int numberOfCountry = travelList.numCountiesToGo();
+            int numberOfCountry = travelList.numCountriesToGo();
             System.out.println("\tYou have " + numberOfCountry + " countries on your bucket list");
             int moneyNeedToSave = travelList.moneyNeedToSave();
             System.out.println("\tThe money you need to save for future travel is: $" + moneyNeedToSave);
@@ -121,14 +121,10 @@ public class MyTravelApp {
 
     // EFFECTS:  to construct a new country base on user input
     private Country createCountry() {
-        String countryCode;
         String countryName;
         int travelCost;
         Country myCountry;
 
-        System.out.println("\n\t\t\tEnter the ISO alpha-3 country code in Capital: ");
-        System.out.print("\t\t\t");
-        countryCode = input.next();
         System.out.println("\t\t\tEnter the country name: ");
         System.out.print("\t\t\t");
         countryName = input.next();
@@ -142,7 +138,7 @@ public class MyTravelApp {
             travelCost = input.nextInt();
         }
 
-        myCountry = travelList.newCountry(countryCode, countryName, travelCost);
+        myCountry = travelList.newCountry(countryName, travelCost);
         return myCountry;
 
     }
