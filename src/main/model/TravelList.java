@@ -1,6 +1,11 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /* CPSC 210 Term Project:
@@ -31,6 +36,8 @@ import java.util.List;
  *
  */
 
+
+// Represents a travel list with two lists and each containing a collection of countries
 public class TravelList {
 
     private List<Country> bucketList;
@@ -44,11 +51,10 @@ public class TravelList {
     }
 
 
-    // REQUIRES: country code is the ISO alpha-3 country code
-    //           travelCost > 0
+    // REQUIRES: travelCost > 0
     // EFFECTS:  to create a new country to be added or deleted from travel lists.
-    public Country newCountry(String countryCode, String countryName, int travelCost) {
-        return new Country(countryCode, countryName, travelCost);
+    public Country newCountry(String countryName, int travelCost) {
+        return new Country(countryName, travelCost);
     }
 
 
@@ -131,13 +137,13 @@ public class TravelList {
 
 
     // EFFECTS: return the total number of countries in bucketList.
-    public int numCountiesToGo() {
+    public int numCountriesToGo() {
         return bucketList.size();
     }
 
 
     // EFFECTS: return the total number of countries visited.
-    public int numCountiesVisited() {
+    public int numCountriesVisited() {
         return visitedList.size();
     }
 

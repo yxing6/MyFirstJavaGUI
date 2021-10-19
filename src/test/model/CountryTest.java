@@ -11,7 +11,7 @@ public class CountryTest {
 
     @BeforeEach
     void setup() {
-        country = new Country("CAD", "Canada", 5000);
+        country = new Country("Canada", 5000);
     }
 
     @Test
@@ -19,10 +19,6 @@ public class CountryTest {
         assertEquals("Canada", country.getCountryName());
     }
 
-    @Test
-    void testGetCountryCode() {
-        assertEquals("CAD", country.getCountryCode());
-    }
 
     @Test
     void testGetCost() {
