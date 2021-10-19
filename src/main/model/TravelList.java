@@ -38,7 +38,7 @@ import java.util.List;
 
 
 // Represents a travel list with two lists and each containing a collection of countries
-public class TravelList {
+public class TravelList implements Writable {
 
     private List<Country> bucketList;
     private List<Country> visitedList;
@@ -170,4 +170,24 @@ public class TravelList {
         return travelCost(visitedList);
     }
 
+
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Bucket List", countriesToJson(bucketList));
+        json.put("Visited List", countriesToJson(visitedList));
+        return json;
+    }
+
+
+    public JSONArray countriesToJson(List<Country> list) {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Country c : list) {
+            jsonArray.put(c.toJson());
+        }
+
+        return jsonArray;
+    }
 }

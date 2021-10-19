@@ -1,6 +1,9 @@
 package model;
 
-public class Country {
+import org.json.JSONObject;
+import persistence.Writable;
+
+public class Country implements Writable {
 
     private String countryName;
     private int travelCost;
@@ -28,5 +31,15 @@ public class Country {
     // EFFECTS:  change the cost associated to this country
     public void changeCost(int newCost) {
         travelCost = newCost;
+    }
+
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Country Name", countryName);
+        json.put("Travel Cost", travelCost);
+
+        return json;
     }
 }
