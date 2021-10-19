@@ -24,11 +24,13 @@ I am interested in this project because I want to travel around the world!
 
 
 
-### Phase 1  
+### Phase 2 
 
 - As a user, I want to be able to add multiple countries to my travel list.  
 - As a user, I want to be able to view my travel bucket list and visited list.  
 - As a user, I want to update my travel record after I completed my trip.  
     - This means adds the country to the completed list, and removes the country from bucket list.  
 - As a user, I want to be able to see the number of countries and costs associated with my bucket list and visited list.
- 
+
+- As a user, I want to be able to save my travel lists to a file.
+- As a user, when I start the application, I want to be given the option to load my travel list from a file.
