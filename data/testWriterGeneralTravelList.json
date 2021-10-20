@@ -1,0 +1,16 @@
+{
+    "Visited List": [{
+        "Country Name": "Belgium",
+        "Travel Cost": 6000
+    }],
+    "Bucket List": [
+        {
+            "Country Name": "Canada",
+            "Travel Cost": 4000
+        },
+        {
+            "Country Name": "China",
+            "Travel Cost": 5000
+        }
+    ]
+}

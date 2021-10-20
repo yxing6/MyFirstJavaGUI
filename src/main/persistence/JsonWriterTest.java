@@ -65,12 +65,10 @@ class JsonWriterTest extends JsonTest {
 
             TravelList travelListIn = reader.read();
 
-            assertFalse(travelListIn.countriesToGo().isEmpty());
             assertEquals(2, travelListIn.numCountriesToGo());
             assertEquals(9000, travelListIn.moneyNeedToSave());
             assertTrue(travelListIn.countriesToGo().contains("China"));
 
-            assertFalse(travelListIn.countriesVisited().isEmpty());
             assertEquals(1, travelListIn.numCountriesVisited());
             assertEquals(6000, travelListIn.moneySpentOnTravel());
             assertTrue(travelListIn.countriesVisited().contains("Belgium"));

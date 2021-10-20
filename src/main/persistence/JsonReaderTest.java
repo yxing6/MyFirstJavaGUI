@@ -29,20 +29,15 @@ public class JsonReaderTest extends JsonTest {
     @Test
     void testReaderEmptyTravelListNoException() {
 
-        TravelList travelListOut = new TravelList();
-        JsonWriter writer = new JsonWriter("./data/testReaderEmptyTravelList.json");
         try {
+            TravelList travelListOut = new TravelList();
+            JsonWriter writer = new JsonWriter("./data/testReaderEmptyTravelList.json");
             writer.open();
-        } catch (FileNotFoundException e) {
-            fail("Not expecting IOException "); // not the main purpose of this unit test
-        }
-        writer.write(travelListOut);
-        writer.close();
+            writer.write(travelListOut);
+            writer.close();
 
+            JsonReader reader = new JsonReader("./data/testReaderEmptyTravelList.json");
 
-        JsonReader reader = new JsonReader("./data/testReaderEmptyTravelList.json");
-
-        try {
             TravelList travelListIn = reader.read();
             assertEquals(0, travelListIn.numCountriesToGo());
             assertEquals(0, travelListIn.numCountriesVisited());
@@ -55,39 +50,31 @@ public class JsonReaderTest extends JsonTest {
     @Test
     void testReaderGeneralTravelListNoException() {
 
-        TravelList travelListOut = new TravelList();
-
-        Country countryA = new Country("Canada", 4000);
-        Country countryB = new Country("China", 5000);
-        Country countryC = new Country("Belgium", 6000);
-        travelListOut.addCountryToGo(countryA);
-        travelListOut.addCountryToGo(countryB);
-        travelListOut.addCountryVisited(countryC);
-
-
-        JsonWriter writer = new JsonWriter("./data/testReaderEmptyTravelList.json");
         try {
+
+            TravelList travelListOut = new TravelList();
+            Country countryA = new Country("Germany", 4000);
+            Country countryB = new Country("Thailand", 5000);
+            Country countryC = new Country("Russia", 6000);
+            travelListOut.addCountryToGo(countryA);
+            travelListOut.addCountryToGo(countryB);
+            travelListOut.addCountryVisited(countryC);
+
+            JsonWriter writer = new JsonWriter("./data/testReaderGeneralTravelList.json");
             writer.open();
-        } catch (FileNotFoundException e) {
-            fail("Not expecting IOException "); // not the main purpose of this unit test
-        }
-        writer.write(travelListOut);
-        writer.close();
+            writer.write(travelListOut);
+            writer.close();
 
-        JsonReader reader = new JsonReader("./data/testReaderEmptyTravelList.json");
-
-        try {
+            JsonReader reader = new JsonReader("./data/testReaderGeneralTravelList.json");
             TravelList travelListIn = reader.read();
 
-            assertFalse(travelListIn.countriesToGo().isEmpty());
             assertEquals(2, travelListIn.numCountriesToGo());
             assertEquals(9000, travelListIn.moneyNeedToSave());
-            assertTrue(travelListIn.countriesToGo().contains("China"));
+            assertTrue(travelListIn.countriesToGo().contains("Germany"));
 
-            assertFalse(travelListIn.countriesVisited().isEmpty());
             assertEquals(1, travelListIn.numCountriesVisited());
             assertEquals(6000, travelListIn.moneySpentOnTravel());
-            assertTrue(travelListIn.countriesVisited().contains("Belgium"));
+            assertTrue(travelListIn.countriesVisited().contains("Russia"));
 
         } catch (IOException e) {
             fail("Not expecting IOException");
