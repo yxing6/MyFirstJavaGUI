@@ -44,7 +44,7 @@ class JsonWriterTest extends JsonTest {
     }
 
     @Test
-    void testWriterGeneralWorkroomNoException() {
+    void testWriterGeneralTravelListNoException() {
         try {
 
             TravelList travelListOut = new TravelList();
@@ -68,10 +68,12 @@ class JsonWriterTest extends JsonTest {
             assertFalse(travelListIn.countriesToGo().isEmpty());
             assertEquals(2, travelListIn.numCountriesToGo());
             assertEquals(9000, travelListIn.moneyNeedToSave());
+            assertTrue(travelListIn.countriesToGo().contains("China"));
 
             assertFalse(travelListIn.countriesVisited().isEmpty());
             assertEquals(1, travelListIn.numCountriesVisited());
             assertEquals(6000, travelListIn.moneySpentOnTravel());
+            assertTrue(travelListIn.countriesVisited().contains("Belgium"));
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");

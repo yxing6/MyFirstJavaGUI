@@ -1,6 +1,7 @@
 package persistence;
 
 import model.Country;
+import model.TravelList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
