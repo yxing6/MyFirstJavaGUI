@@ -114,7 +114,7 @@ public class TravelList implements Writable {
 
     // a helper method
     // EFFECTS: return a list of country names on a list of Countries
-    public List<String> countriesNames(List<Country> list) {
+    private List<String> countriesNames(List<Country> list) {
         List<String> names = new ArrayList<>();
         for (Country next: list) {
             names.add(next.getCountryName());
@@ -150,7 +150,7 @@ public class TravelList implements Writable {
 
     // helper method
     // EFFECTS: return the total travel cost of a list of Countries
-    public int travelCost(List<Country> list) {
+    private int travelCost(List<Country> list) {
         int totalMoney = 0;
         for (Country next: list) {
             totalMoney += next.getCost();

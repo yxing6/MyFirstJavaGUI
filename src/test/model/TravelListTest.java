@@ -21,6 +21,9 @@ class TravelListTest {
         assertTrue(travelList.countriesToGo().isEmpty());
         assertEquals(0, travelList.numCountriesToGo());
         assertEquals(0, travelList.moneyNeedToSave());
+        assertTrue(travelList.countriesVisited().isEmpty());
+        assertEquals(0, travelList.numCountriesVisited());
+        assertEquals(0, travelList.moneySpentOnTravel());
     }
 
     @Test
