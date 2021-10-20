@@ -5,7 +5,6 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /* CPSC 210 Term Project:
@@ -48,13 +47,6 @@ public class TravelList implements Writable {
     public TravelList() {
         bucketList = new ArrayList<>();
         visitedList = new ArrayList<>();
-    }
-
-
-    // REQUIRES: travelCost > 0
-    // EFFECTS:  to create a new country to be added or deleted from travel lists.
-    public Country newCountry(String countryName, int travelCost) {
-        return new Country(countryName, travelCost);
     }
 
 
@@ -135,7 +127,6 @@ public class TravelList implements Writable {
     }
 
 
-
     // EFFECTS: return the total number of countries in bucketList.
     public int numCountriesToGo() {
         return bucketList.size();
@@ -171,7 +162,6 @@ public class TravelList implements Writable {
     }
 
 
-
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -183,11 +173,9 @@ public class TravelList implements Writable {
 
     public JSONArray countriesToJson(List<Country> list) {
         JSONArray jsonArray = new JSONArray();
-
         for (Country c : list) {
             jsonArray.put(c.toJson());
         }
-
         return jsonArray;
     }
 }

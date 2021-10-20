@@ -138,7 +138,9 @@ public class MyTravelApp {
             travelCost = input.nextInt();
         }
 
-        myCountry = travelList.newCountry(countryName, travelCost);
+        myCountry = new Country(countryName, travelCost);
+
+//        myCountry = travelList.newCountry(countryName, travelCost);
         return myCountry;
 
     }
