@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 
 
 // Represents a writer that writes JSON representation of travel list to file
-// JsonWrite.java follows example from JsonSerializationDemo created by Paul Carter
+// JsonWrite.java is built with reference to the JsonSerializationDemo example created by Paul Carter
 
 public class JsonWriter {
     private static final int TAB = 4;
