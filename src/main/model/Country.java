@@ -1,5 +1,6 @@
 package model;
 
+import model.exception.NegativeCostException;
 import org.json.JSONObject;
 import persistence.Writable;
 
@@ -10,10 +11,15 @@ public class Country implements Writable {
 
     //REQUIRED: travelCost should be a positive integer value
     // EFFECTS: constructs a country with associated code and trip cost
-    public Country(String countryName, int travelCost) {
+    public Country(String countryName, int travelCost) throws NegativeCostException {
+
+        if (travelCost <= 0) {
+            throw new NegativeCostException();
+        }
         this.countryName = countryName;
         this.travelCost = travelCost;
     }
+
 
     // EFFECTS: return the country name
     public String getCountryName() {
@@ -21,11 +27,11 @@ public class Country implements Writable {
     }
 
 
-
     // EFFECTS: return the cost associated to this country
     public int getCost() {
         return travelCost;
     }
+
 
     // MODIFIES: this
     // EFFECTS:  change the cost associated to this country

@@ -1,5 +1,6 @@
 package model;
 
+import model.exception.NegativeCostException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,8 +12,25 @@ public class CountryTest {
 
     @BeforeEach
     void setup() {
-        country = new Country("Canada", 5000);
+        try {
+            country = new Country("Canada", 5000);
+        } catch (NegativeCostException e) {
+            fail("Caught unexpected NegativeCostException while the travel cost is valid");
+        }
     }
+
+
+    @Test
+    void testCreateCountryWithNegativeCostExpectException() {
+        try {
+            Country countryA = new Country("Canada", -5000);
+            fail("Should not reach this line when travel cost is negative");
+        } catch (NegativeCostException e) {
+            // expected
+        }
+
+    }
+
 
     @Test
     void testGetCountryName() {
@@ -24,6 +42,7 @@ public class CountryTest {
     void testGetCost() {
         assertEquals(5000, country.getCost());
     }
+
 
     @Test
     void testChangeCost() {
