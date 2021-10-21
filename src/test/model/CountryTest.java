@@ -1,6 +1,7 @@
 package model;
 
 import model.exception.NegativeCostException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -49,4 +50,13 @@ public class CountryTest {
         country.changeCost(6500);
         assertEquals(6500, country.getCost());
     }
+
+
+    @Test
+    void testToJson() {
+        JSONObject json = country.toJson();
+        assertEquals("Canada", json.get("Country Name"));
+        assertEquals(5000, json.get("Travel Cost"));
+    }
+
 }
