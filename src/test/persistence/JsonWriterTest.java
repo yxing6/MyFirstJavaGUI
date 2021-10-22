@@ -2,6 +2,7 @@ package persistence;
 
 import model.Country;
 import model.TravelList;
+import model.exception.NegativeCostException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -40,6 +41,8 @@ class JsonWriterTest extends JsonTest {
             assertEquals(0, travelListIn.numCountriesVisited());
         } catch (IOException e) {
             fail("Exception should not have been thrown");
+        } catch (NegativeCostException e) {
+            fail("NegativeCostException should not been thrown");
         }
     }
 
@@ -74,7 +77,9 @@ class JsonWriterTest extends JsonTest {
             assertTrue(travelListIn.countriesVisited().contains("Belgium"));
 
         } catch (IOException e) {
-            fail("Exception should not have been thrown");
+            fail("IOException should not have been thrown");
+        } catch (NegativeCostException e) {
+            fail("NegativeCostException should not been thrown");
         }
     }
 }

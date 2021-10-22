@@ -2,6 +2,7 @@ package persistence;
 
 import model.Country;
 import model.TravelList;
+import model.exception.NegativeCostException;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -22,9 +23,10 @@ public class JsonReaderTest extends JsonTest {
             fail("IOException expected");
         } catch (IOException e) {
             // expecting IOException
+        } catch (NegativeCostException e) {
+            fail("IO Exception should be caught, and should not reach this line of code.");
         }
     }
-
 
     @Test
     void testReaderEmptyTravelListNoException() {
@@ -43,6 +45,8 @@ public class JsonReaderTest extends JsonTest {
             assertEquals(0, travelListIn.numCountriesVisited());
         } catch (IOException e) {
             fail("Not expecting IOException");
+        } catch (NegativeCostException e) {
+            fail("NegativeCostException should not been thrown");
         }
     }
 
@@ -51,7 +55,6 @@ public class JsonReaderTest extends JsonTest {
     void testReaderGeneralTravelListNoException() {
 
         try {
-
             TravelList travelListOut = new TravelList();
             Country countryA = new Country("Germany", 4000);
             Country countryB = new Country("Thailand", 5000);
@@ -78,6 +81,8 @@ public class JsonReaderTest extends JsonTest {
 
         } catch (IOException e) {
             fail("Not expecting IOException");
+        } catch (NegativeCostException e) {
+            fail("NegativeCostException should not been thrown");
         }
     }
 

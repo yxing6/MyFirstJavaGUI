@@ -3,6 +3,7 @@ package persistence;
 import model.Country;
 import model.TravelList;
 
+import model.exception.NegativeCostException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -27,7 +28,7 @@ public class JsonReader {
 
     // EFFECTS: reads travelList from file and returns it;
     // throws IOException if an error occurs reading data from file
-    public TravelList read() throws IOException {
+    public TravelList read() throws IOException, NegativeCostException {
 
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
@@ -49,7 +50,7 @@ public class JsonReader {
 
 
     // EFFECTS: parses travel list from JSON object and returns it
-    private TravelList parseTravelList(JSONObject jsonObject) {
+    private TravelList parseTravelList(JSONObject jsonObject) throws NegativeCostException {
 
         TravelList travelList = new TravelList();
         addToBucketList(travelList, jsonObject);
@@ -60,7 +61,7 @@ public class JsonReader {
 
     // MODIFIES: travelList
     // EFFECTS: parses countries from JSON object and adds them on to bucket list
-    private void addToBucketList(TravelList travelList, JSONObject jsonObject) {
+    private void addToBucketList(TravelList travelList, JSONObject jsonObject) throws NegativeCostException {
 
         JSONArray jsonArray = jsonObject.getJSONArray("Bucket List");
 
@@ -73,7 +74,7 @@ public class JsonReader {
 
     // MODIFIES: travelList
     // EFFECTS: parses countries from JSON object and adds them on to bucket list
-    private void addToVisitedList(TravelList travelList, JSONObject jsonObject) {
+    private void addToVisitedList(TravelList travelList, JSONObject jsonObject) throws NegativeCostException {
 
         JSONArray jsonArray = jsonObject.getJSONArray("Visited List");
 
@@ -85,7 +86,7 @@ public class JsonReader {
 
 
     // EFFECTS: parses and return a country from JSON object
-    private Country getCountry(JSONObject jsonObject) {
+    private Country getCountry(JSONObject jsonObject) throws NegativeCostException {
 
         String countryName = jsonObject.getString("Country Name");
         int travelCost = jsonObject.getInt("Travel Cost");
