@@ -1,6 +1,8 @@
 package model;
 
 import model.exception.NegativeCostException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -191,4 +193,47 @@ class TravelListTest {
             fail("Caught unexpected NegativeCostException while the travel cost is valid");
         }
     }
+
+
+    @Test
+    void testToJson() {
+        try {
+            Country countryA = new Country("Canada", 4000);
+            Country countryB = new Country("China", 5000);
+            Country countryC = new Country("Belgium", 6000);
+            travelList.addCountryToGo(countryA);
+            travelList.addCountryToGo(countryB);
+            travelList.addCountryVisited(countryC);
+
+            JSONObject jsonObject = travelList.toJson();
+            JSONArray jsonArrayBucket = jsonObject.getJSONArray("Bucket List");
+            JSONObject jsonCountryA = jsonArrayBucket.getJSONObject(0);
+            JSONObject jsonCountryB = jsonArrayBucket.getJSONObject(1);
+            JSONArray jsonArrayVisited = jsonObject.getJSONArray("Visited List");
+            assertEquals("Canada", jsonCountryA.getString("Country Name"));
+            assertEquals(5000, jsonCountryB.getInt("Travel Cost"));
+            assertEquals(1, jsonArrayVisited.toList().size());
+
+//            assertEquals(countryC.toJson(), travelList.toJson().get("Visited List"));
+
+//            assertEquals(0, travelList.numCountriesVisited());
+//            assertEquals(3, travelList.numCountriesToGo());
+//            assertEquals(0, travelList.moneySpentOnTravel());
+//            assertEquals(15000, travelList.moneyNeedToSave());
+//            travelList.addCountryVisited(countryB);
+//            travelList.addCountryVisited(countryC);
+//            assertEquals(2, travelList.numCountriesVisited());
+//            assertEquals(1, travelList.numCountriesToGo());
+//            assertEquals(11000, travelList.moneySpentOnTravel());
+//            assertEquals(4000, travelList.moneyNeedToSave());
+        } catch (NegativeCostException e) {
+            fail("Caught unexpected NegativeCostException while the travel cost is valid");
+        }
+
+    }
+
+//    @Test
+//    void testCountriesToJson() {
+//        travelList.
+//    }
 }
