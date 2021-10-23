@@ -5,11 +5,9 @@ import model.TravelList;
 import model.exception.NegativeCostException;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class JsonReaderTest extends JsonTest {
 
@@ -24,7 +22,7 @@ public class JsonReaderTest extends JsonTest {
         } catch (IOException e) {
             // expecting IOException
         } catch (NegativeCostException e) {
-            fail("IO Exception should be caught, and should not reach this line of code.");
+            fail("IO Exception should been caught, and should not reach this line of code.");
         }
     }
 
