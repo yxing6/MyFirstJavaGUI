@@ -1,0 +1,34 @@
+{
+    "Visited List": [
+        {
+            "Country Name": "Canada",
+            "Travel Cost": 4000
+        },
+        {
+            "Country Name": "Russia",
+            "Travel Cost": 6000
+        },
+        {
+            "Country Name": "Japon",
+            "Travel Cost": 1000
+        },
+        {
+            "Country Name": "Thailand",
+            "Travel Cost": 4000
+        }
+    ],
+    "Bucket List": [
+        {
+            "Country Name": "Belgium",
+            "Travel Cost": 6000
+        },
+        {
+            "Country Name": "Germany",
+            "Travel Cost": 5000
+        },
+        {
+            "Country Name": "Cuba",
+            "Travel Cost": 3000
+        }
+    ]
+}
