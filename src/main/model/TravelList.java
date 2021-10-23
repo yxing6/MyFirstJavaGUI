@@ -162,6 +162,7 @@ public class TravelList implements Writable {
     }
 
 
+    // EFFECTS: return a JSONObject containing two lists
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -171,6 +172,7 @@ public class TravelList implements Writable {
     }
 
 
+    // EFFECTS: return a JSONArray containing countries
     public JSONArray countriesToJson(List<Country> list) {
         JSONArray jsonArray = new JSONArray();
         for (Country c : list) {

@@ -9,8 +9,9 @@ public class Country implements Writable {
     private String countryName;
     private int travelCost;
 
-    //REQUIRED: travelCost should be a positive integer value
+
     // EFFECTS: constructs a country with associated code and trip cost
+    //          throw NegativeCostException if trying to construct a country with negative travel cost
     public Country(String countryName, int travelCost) throws NegativeCostException {
 
         if (travelCost <= 0) {
@@ -40,6 +41,7 @@ public class Country implements Writable {
     }
 
 
+    // EFFECTS: return a JSONObject representing a country
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
