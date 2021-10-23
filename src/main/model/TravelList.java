@@ -19,22 +19,16 @@ import java.util.List;
  * In bucket list:
  * countries can be added or removed from this list
  * countries need to be unique
- * In UI, if a user trying to add an existing country onto the bucket list, an error message will display
- * In UI, if a user trying to delete a country that is not ont the bucket list, an error message will display
 
  * In visited list:
  * countries can be added but not removed from this list
  * countries need to be unique
- * If a user went to the same country twice, no new country will be added, but the travel cost will be updated
- * If a user went to a country that exist on the bucket list, this country will be removed from the bucket list
 
  * For both lists, a user will be able to
  * - view all the country names
  * - get number of countries on the list and
  * - get the total travel cost
- *
  */
-
 
 // Represents a travel list with two lists and each containing a collection of countries
 public class TravelList implements Writable {

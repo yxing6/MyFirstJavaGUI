@@ -1,9 +1,14 @@
 package ui;
 
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        new MyTravelApp();
+        try {
+            new MyTravelApp();
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to run application: file not found");
+        }
     }
 }
