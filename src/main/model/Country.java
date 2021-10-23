@@ -4,6 +4,18 @@ import model.exception.NegativeCostException;
 import org.json.JSONObject;
 import persistence.Writable;
 
+
+/* CPSC 210 Term Project:
+ * Travel Record - Country Class
+ * Author: Yun Xing
+ * Date: October 10, 2021
+ *
+ * A country contain two fields - country name and travel cost
+ * User should be able to construct a new country with country name and positive travel cost,
+ * NegativeCostException will be thrown if travel cost is negative
+ * Country is writable class can be written to external files.
+ */
+
 public class Country implements Writable {
 
     private String countryName;
