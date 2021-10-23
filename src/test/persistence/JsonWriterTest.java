@@ -26,6 +26,7 @@ class JsonWriterTest extends JsonTest {
         }
     }
 
+
     @Test
     void testWriterEmptyTravelListNoException() {
         try {
@@ -45,6 +46,7 @@ class JsonWriterTest extends JsonTest {
             fail("NegativeCostException should not been thrown");
         }
     }
+
 
     @Test
     void testWriterGeneralTravelListNoException() {

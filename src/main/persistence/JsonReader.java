@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.stream.Stream;
 
 
@@ -19,15 +18,19 @@ import java.util.stream.Stream;
 // JsonRead.java is built with reference to the JsonSerializationDemo example created by Paul Carter
 
 public class JsonReader {
+
     private String source;
+
 
     // EFFECTS: constructs reader to read from source file
     public JsonReader(String source) {
         this.source = source;
     }
 
+
     // EFFECTS: reads travelList from file and returns it;
     // throws IOException if an error occurs reading data from file
+    // throws NegativeCostException if a country object has negative travel cost associated
     public TravelList read() throws IOException, NegativeCostException {
 
         String jsonData = readFile(source);
@@ -36,7 +39,9 @@ public class JsonReader {
         return parseTravelList(jsonObject);
     }
 
-    // EFFECTS: reads source file as string and returns it
+
+    // EFFECTS: reads source file as string and returns it;
+    // throws IOException if an error occurs reading data from file
     private String readFile(String source) throws IOException {
 
         StringBuilder contentBuilder = new StringBuilder();
@@ -50,6 +55,7 @@ public class JsonReader {
 
 
     // EFFECTS: parses travel list from JSON object and returns it
+    // throws NegativeCostException if a country object has negative travel cost associated
     private TravelList parseTravelList(JSONObject jsonObject) throws NegativeCostException {
 
         TravelList travelList = new TravelList();
@@ -59,8 +65,10 @@ public class JsonReader {
         return travelList;
     }
 
+
     // MODIFIES: travelList
     // EFFECTS: parses countries from JSON object and adds them on to bucket list
+    // throws NegativeCostException if a country object has negative travel cost associated
     private void addToBucketList(TravelList travelList, JSONObject jsonObject) throws NegativeCostException {
 
         JSONArray jsonArray = jsonObject.getJSONArray("Bucket List");
@@ -74,6 +82,7 @@ public class JsonReader {
 
     // MODIFIES: travelList
     // EFFECTS: parses countries from JSON object and adds them on to bucket list
+    // throws NegativeCostException if a country object has negative travel cost associated
     private void addToVisitedList(TravelList travelList, JSONObject jsonObject) throws NegativeCostException {
 
         JSONArray jsonArray = jsonObject.getJSONArray("Visited List");
@@ -86,6 +95,7 @@ public class JsonReader {
 
 
     // EFFECTS: parses and return a country from JSON object
+    // throws NegativeCostException if a country object has negative travel cost associated
     private Country getCountry(JSONObject jsonObject) throws NegativeCostException {
 
         String countryName = jsonObject.getString("Country Name");

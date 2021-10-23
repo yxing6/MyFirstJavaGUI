@@ -9,6 +9,10 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+// JsonReaderTest.java is built with reference to the JsonSerializationDemo example created by Paul Carter
+
+
 public class JsonReaderTest extends JsonTest {
 
     @Test
