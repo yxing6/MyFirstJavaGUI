@@ -34,63 +34,62 @@ public class TravelListGUI {
 
     public static void main(String[] args) {
 
+        frame = new JFrame();
+        panel = new JPanel();
 
-            frame = new JFrame();
-            panel = new JPanel();
+        frame.setTitle("My travel list");
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(panel);
 
-            frame.setTitle("My travel list");
-            frame.setSize(WIDTH, HEIGHT);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(panel);
+        //        frame.pack();
+        //
+        //        frame.add(panel, BorderLayout.SOUTH);
 
-//        frame.pack();
-//
-//        frame.add(panel, BorderLayout.SOUTH);
+        //        panel.setLayout(new GridLayout(0, 1));
+        panel.setLayout(null);
 
-//        panel.setLayout(new GridLayout(0, 1));
-            panel.setLayout(null);
+        userLabel = new JLabel("User");
+        userLabel.setBounds(10, 20, 80, 25);
+        panel.add(userLabel);
 
-            userLabel = new JLabel("User");
-            userLabel.setBounds(10, 20, 80, 25);
-            panel.add(userLabel);
+        userText = new JTextField(20);
+        userText.setBounds(100, 20, 165,25);
+        panel.add(userText);
 
-            userText = new JTextField(20);
-            userText.setBounds(100, 20, 165,25);
-            panel.add(userText);
+        passwordLabel = new JLabel("Password");
+        passwordLabel.setBounds(10, 50, 80, 25);
+        panel.add(passwordLabel);
 
-            passwordLabel = new JLabel("Password");
-            passwordLabel.setBounds(10, 50, 80, 25);
-            panel.add(passwordLabel);
-
-            passwordText = new JPasswordField();
-            passwordText.setBounds(100, 50, 165, 25);
-            panel.add(passwordText);
+        passwordText = new JPasswordField();
+        passwordText.setBounds(100, 50, 165, 25);
+        panel.add(passwordText);
 
 
-            button = new JButton("login");
-            button.setBounds(10, 80, 80, 25);
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    {
-                        String user = userText.getText();
-                        String password = passwordText.getText();
-                        System.out.println(user + ", " + password);
+        button = new JButton("login");
+        button.setBounds(10, 80, 80, 25);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                {
+                    String user = userText.getText();
+                    String password = passwordText.getText();
+                    System.out.println(user + ", " + password);
 
-                        if (user.equals("Yun") && password.equals("123")) {
-                            successLabel.setText("Login successful!");
-                        }
+                    if (user.equals("Yun") && password.equals("123")) {
+                        successLabel.setText("Login successful!");
                     }
                 }
-            });
-            panel.add(button);
+            }
+        });
+        panel.add(button);
 
 
-            successLabel = new JLabel("");
-            successLabel.setBounds(10, 110, 300, 25);
-            panel.add(successLabel);
+        successLabel = new JLabel("");
+        successLabel.setBounds(10, 110, 300, 25);
+        panel.add(successLabel);
 
-            frame.setVisible(true);
+        frame.setVisible(true);
 
 //        button.addActionListener(this);
 //

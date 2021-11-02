@@ -44,6 +44,17 @@ public class TravelList implements Writable {
     }
 
 
+    // EFFECTS: return the bucketList
+    public List<Country> getBucketList() {
+        return bucketList;
+    }
+
+
+    // EFFECTS: return the visitedList
+    public List<Country> getVisitedList() {
+        return visitedList;
+    }
+
     // MODIFIES: this
     // EFFECTS: a country can only on be present on the bucket list once
     //          if the country is not on the bucket list, add the country to the bucketList and return true
