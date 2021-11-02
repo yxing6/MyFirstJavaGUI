@@ -53,6 +53,32 @@ public class Country implements Writable {
     }
 
 
+    // EFFECTS: return true is two country object have the same name
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return false;
+        }
+        if (!(o instanceof Country)) {
+            return false;
+        }
+        // Two countries are the same if their name are the same
+        Country anotherCountry = (Country) o;
+        return countryName.equals(anotherCountry.getCountryName());
+    }
+
+    @Override
+    public int hashCode() {
+        return countryName.hashCode();
+    }
+
+    // EFFECTS: return a String representation of the country;
+    @Override
+    public String toString() {
+        return "Country(" + countryName + ")";
+    }
+
+
     // EFFECTS: return a JSONObject representing a country
     @Override
     public JSONObject toJson() {

@@ -53,6 +53,18 @@ public class CountryTest {
 
 
     @Test
+    void testEquals() {
+        try {
+            Country countryB = new Country("Canada", 10);
+            assertTrue(country.equals(countryB));
+        } catch (NegativeCostException e) {
+            fail("Not suppose to catch the NegativeCostException");
+        }
+
+
+    }
+
+    @Test
     void testToJson() {
         JSONObject json = country.toJson();
         assertEquals("Canada", json.get("Country Name"));
