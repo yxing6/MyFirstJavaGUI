@@ -5,6 +5,7 @@ import model.TravelList;
 import model.exception.NegativeCostException;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,39 +27,28 @@ public class MainGUI extends JPanel {
     private JTextField countryName;
     private JTextField countryCost;
 
+    private JPanel secondPanel;
+    private JPanel firstPanel;
+
     public MainGUI() {
 
-//        super(new BorderLayout());
+//        super(new BorderLayout());          //GRID layout? layout manager
+        super(new GridLayout(3,10));
+        setBorder(new EmptyBorder(WIDTH, HEIGHT, 10, 50));
+        secondPanel = new JPanel();
+        secondPanel.add(new JButton("TEST"));
+        firstPanel = new JPanel();
+        firstPanel.setLayout(new GridLayout(0, 2));
+        add(secondPanel);
+        add(firstPanel);
 
-        travelList = new TravelList();
-        try {
-            Country countryA = new Country("Canada", 4000);
-            Country countryB = new Country("China", 5000);
-            Country countryC = new Country("Belgian", 6000);
-            Country countryD = new Country("Belgia", 6000);
-            Country countryE = new Country("Belgi", 6000);
-            Country countryF = new Country("Belg", 6000);
-            Country countryG = new Country("Bel", 6000);
-
-            travelList.addCountryToGo(countryA);
-            travelList.addCountryVisited(countryB);
-            travelList.addCountryVisited(countryC);
-            travelList.addCountryVisited(countryD);
-            travelList.addCountryVisited(countryE);
-            travelList.addCountryVisited(countryF);
-            travelList.addCountryVisited(countryG);
-
-        } catch (NegativeCostException e) {
-            fail("Caught unexpected NegativeCostException while the travel cost is valid");
-        }
-
-
-//        bucketList = new JList((Vector) travelList.getBucketList());
-//        visitedList = new JList((Vector) travelList.getVisitedList());
-//        JScrollPane bucketScrollPane = createScrollPanel(new JList((Vector) travelList.getBucketList()));
+//        JLabel label = new JLabel("Label: ");
+//        label.setBounds(10, 20, 80, 25);
+//        add(label);
 //
-//        JScrollPane visitedScrollPane = createScrollPanel(new JList((Vector) travelList.getVisitedList()));
-
+//        JTextField textField = new JTextField("Text field", 15);
+//        textField.setBounds(10, 20, 80, 25);
+//        add(textField);
         JLabel countryName = createLabel("Country Name", 10, 20, 80, 25);
         JLabel countryCost = createLabel("Country Cost", 10, 50, 80, 25);
         JTextField countryNameField = createTextFiled(100, 20, 80, 25);
@@ -68,7 +58,7 @@ public class MainGUI extends JPanel {
 
 //        add(bucketScrollPane, BorderLayout.NORTH);
 //        add(visitedScrollPane, BorderLayout.CENTER);
-        add(countryName);
+        firstPanel.add(countryName);
         add(countryCost);
         add(countryNameField);
         add(countryCostField);
@@ -113,7 +103,6 @@ public class MainGUI extends JPanel {
         return button;
     }
 
-
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
@@ -122,14 +111,16 @@ public class MainGUI extends JPanel {
     private static void createAndShowGUI() {
         //Create and set up the travel list GUI desktop frame
         JFrame frame = new JFrame("Travel List");
-        frame.setSize(WIDTH, HEIGHT);
-        frame.setResizable(true);
+//        frame.setSize(WIDTH, HEIGHT);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Create and set up the content pane.
-        JComponent newContentPane = new MainGUI();
-        newContentPane.setOpaque(true); //content panes must be opaque
+        Container newContentPane = new MainGUI();
+//        newContentPane.setOpaque(true); //content panes must be opaque
         frame.setContentPane(newContentPane);
+
+
 
         //Display the window.
         frame.pack();
@@ -148,3 +139,36 @@ public class MainGUI extends JPanel {
 
 
 }
+
+
+
+
+
+//        travelList = new TravelList();
+//        try {
+//            Country countryA = new Country("Canada", 4000);
+//            Country countryB = new Country("China", 5000);
+//            Country countryC = new Country("Belgian", 6000);
+//            Country countryD = new Country("Belgia", 6000);
+//            Country countryE = new Country("Belgi", 6000);
+//            Country countryF = new Country("Belg", 6000);
+//            Country countryG = new Country("Bel", 6000);
+//
+//            travelList.addCountryToGo(countryA);
+//            travelList.addCountryVisited(countryB);
+//            travelList.addCountryVisited(countryC);
+//            travelList.addCountryVisited(countryD);
+//            travelList.addCountryVisited(countryE);
+//            travelList.addCountryVisited(countryF);
+//            travelList.addCountryVisited(countryG);
+//
+//        } catch (NegativeCostException e) {
+//            fail("Caught unexpected NegativeCostException while the travel cost is valid");
+//        }
+
+
+//        bucketList = new JList((Vector) travelList.getBucketList());
+//        visitedList = new JList((Vector) travelList.getVisitedList());
+//        JScrollPane bucketScrollPane = createScrollPanel(new JList((Vector) travelList.getBucketList()));
+//
+//        JScrollPane visitedScrollPane = createScrollPanel(new JList((Vector) travelList.getVisitedList()));
