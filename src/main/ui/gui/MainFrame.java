@@ -7,12 +7,11 @@ public class MainFrame extends JFrame {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 500;
 
-
+    // create a main frame, add and display panels
     public MainFrame(String name) {
 
         super(name);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        getContentPane().setBackground(new Color(10, 180, 180));
         addComponentsToPane(this.getContentPane());
 
         setSize(WIDTH, HEIGHT);
@@ -21,7 +20,7 @@ public class MainFrame extends JFrame {
 
     }
 
-    public void addComponentsToPane(final Container pane) {
+    public void addComponentsToPane(Container pane) {
 
         pane.add(leftPanel());
 
@@ -31,24 +30,37 @@ public class MainFrame extends JFrame {
     }
 
     public JPanel leftPanel() {
-        JPanel textPanel = new JPanel();
-        textPanel.setLayout(null);
-//        textPanel.setBackground(new Color(0x929BA7));
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(null);
+//        leftPanel.setBackground(new Color(0x929BA7));
 
+        // set up a world map on the top left of the frame
         JLabel worldLabel = new JLabel();
         ImageIcon worldMap = createImageIcon();
         worldLabel.setIcon(worldMap);
-        textPanel.add(worldLabel).setBounds(20, 0, 400, 300);
+        leftPanel.add(worldLabel).setBounds(20, 0, 400, 300);
 
+        // set up label and text field on the bottom left of the frame
         JLabel countryName = new JLabel("Country Name:");
-        textPanel.add(countryName).setBounds(20, 310, 120, 25);
+        leftPanel.add(countryName).setBounds(20, 310, 120, 25);
         JTextField countryNameBox = new JTextField();
-        textPanel.add(countryNameBox).setBounds(150, 310, 120,25);
+        leftPanel.add(countryNameBox).setBounds(150, 310, 120,25);
         JLabel countryCost = new JLabel("Country Cost:");
-        textPanel.add(countryCost).setBounds(20, 350, 120, 25);
+        leftPanel.add(countryCost).setBounds(20, 350, 120, 25);
         JTextField countryCostBox = new JTextField();
-        textPanel.add(countryCostBox).setBounds(150, 350, 120,25);
-        return textPanel;
+        leftPanel.add(countryCostBox).setBounds(150, 350, 120,25);
+        return leftPanel;
+    }
+
+    // process the intake image to a smaller size
+    public ImageIcon createImageIcon() {
+
+        ImageIcon imageIcon = new ImageIcon("./data/world-map-2500.jpg");
+        Image bigMap = imageIcon.getImage();
+        Image smallMap = bigMap.getScaledInstance(400, 250, java.awt.Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(smallMap);
+
+        return imageIcon;
     }
 
     public JPanel textPanel2() {
@@ -68,15 +80,7 @@ public class MainFrame extends JFrame {
         return textPanel;
     }
 
-    public ImageIcon createImageIcon() {
 
-        ImageIcon imageIcon = new ImageIcon("./data/world-map-2500.jpg");
-        Image bigMap = imageIcon.getImage();
-        Image smallMap = bigMap.getScaledInstance(400, 250, java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(smallMap);
-
-        return imageIcon;
-    }
 
 //    public JPanel imagePanel() {
 //        JPanel imagePanel = new JPanel();
