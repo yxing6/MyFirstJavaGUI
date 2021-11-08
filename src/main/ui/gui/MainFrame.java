@@ -3,6 +3,8 @@ package ui.gui;
 import model.Country;
 import model.TravelList;
 import model.exception.NegativeCostException;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -24,31 +26,36 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     private JTextField countryName;
     private JTextField countryCost;
     private JButton addToBucketList;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private static final String JSON_STORE = "./data/travels.json";
 
 
+    // create a main frame, add and display panels
+    public MainFrame(String name) {
 
-    public void createTravelList() {
+        super(name);
 
-        travelList = new TravelList();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+        loadTravelList();
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addComponentsToPane(this.getContentPane());
+        setSize(WIDTH, HEIGHT);
+        setResizable(false);
+        setVisible(true);
+
+    }
+
+    private void loadTravelList() {
         try {
-            Country countryA = new Country("Canada", 4000);
-            Country countryB = new Country("China", 5000);
-            Country countryC = new Country("Belgian", 6000);
-            Country countryD = new Country("Belgia", 6000);
-            Country countryE = new Country("Belgi", 6000);
-            Country countryF = new Country("Belg", 6000);
-            Country countryG = new Country("Bel", 6000);
-
-            travelList.addCountryToGo(countryA);
-            travelList.addCountryToGo(countryB);
-            travelList.addCountryVisited(countryC);
-            travelList.addCountryVisited(countryD);
-            travelList.addCountryVisited(countryE);
-            travelList.addCountryVisited(countryF);
-            travelList.addCountryVisited(countryG);
-
-        } catch (NegativeCostException e) {
-            fail("Caught unexpected NegativeCostException while the travel cost is valid");
+            travelList = jsonReader.read();
+            System.out.println("Loaded the travel list from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        } catch (NegativeCostException ne) {
+            System.out.println("Some country appears to have negative travel cost associates...");
         }
 
         bucketList = new DefaultListModel();
@@ -62,24 +69,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         for (String s: vl) {
             visitedList.addElement(s);
         }
-
-    }
-
-
-    // create a main frame, add and display panels
-    public MainFrame(String name) {
-
-        super(name);
-
-        createTravelList();
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        addComponentsToPane(this.getContentPane());
-
-        setSize(WIDTH, HEIGHT);
-        setResizable(false);
-        setVisible(true);
-
     }
 
     public void addComponentsToPane(Container pane) {
