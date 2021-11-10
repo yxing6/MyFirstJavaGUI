@@ -35,6 +35,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     private JTextField countryCost;
 
     private JButton addToBucketList;
+    private JButton addToVisitedList;
     private JButton removeFromBucketList;
 
     private JsonWriter jsonWriter;
@@ -76,14 +77,17 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         for (String s: bl) {
             bucketListModel.addElement(s);
         }
+        bucketJList = new JList(bucketListModel);
         bucketListTotalCost = travelList.moneyNeedToSave();
-        numberOnBucketList = travelList.numCountriesToGo();
+//        numberOnBucketList = travelList.numCountriesToGo();
+        numberOnBucketList = bucketListModel.getSize();
 
         visitedListModel = new DefaultListModel();
         List<String> vl = travelList.countriesVisited();
         for (String s: vl) {
             visitedListModel.addElement(s);
         }
+        visitedJList = new JList(visitedListModel);
         visitedListTotalCost = travelList.moneySpentOnTravel();
         numberOnVisitedList = travelList.numCountriesVisited();
     }
@@ -112,20 +116,25 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
         // set up label and text field on the bottom left of the frame
         JLabel countryNameLabel = new JLabel("Country Name:");
-        leftPanel.add(countryNameLabel).setBounds(20, 310, 120, 25);
+        leftPanel.add(countryNameLabel).setBounds(20, 310, 100, 25);
         countryName = new JTextField();
-        leftPanel.add(countryName).setBounds(150, 310, 120,25);
+        leftPanel.add(countryName).setBounds(130, 310, 100,25);
         JLabel countryCostLabel = new JLabel("Country Cost:");
-        leftPanel.add(countryCostLabel).setBounds(20, 350, 120, 25);
+        leftPanel.add(countryCostLabel).setBounds(20, 350, 100, 25);
         countryCost = new JTextField();
-        leftPanel.add(countryCost).setBounds(150, 350, 120,25);
+        leftPanel.add(countryCost).setBounds(130, 350, 100,25);
 
-        addToBucketList = new JButton("Add to your bucket list");
-        AddListener addToBucketListener = new AddListener(addToBucketList);
-//        AddListener addToBucketListener;
-//        addToBucketListener = new AddListener(addToBucketList, bucketListModel, bucketJList, bucketListTotalCost);
+        addToBucketList = new JButton("Add to bucket list");
+        AddListener addToBucketListener;
+        addToBucketListener = new AddListener(addToBucketList, bucketListModel, bucketJList, bucketListTotalCost);
         addToBucketList.addActionListener(addToBucketListener);
-        leftPanel.add(addToBucketList).setBounds(200, 400, 150, 25);
+        leftPanel.add(addToBucketList).setBounds(250, 310, 150, 25);
+
+        addToVisitedList = new JButton("Add to visited list");
+        AddListener addToVisitedListener;
+        addToVisitedListener = new AddListener(addToVisitedList, visitedListModel, visitedJList, visitedListTotalCost);
+        addToVisitedList.addActionListener(addToVisitedListener);
+        leftPanel.add(addToVisitedList).setBounds(250, 350, 150, 25);
 
 //    {
 //            @Override
@@ -160,8 +169,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         return imageIcon;
     }
 
-
-
     public JPanel textPanel2() {
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
@@ -179,28 +186,34 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         return textPanel;
     }
 
-
     public JPanel rightPanel() {
 
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(null);
 
         JLabel buLabel = new JLabel("Your Bucket List");
-        bucketJList = new JList(bucketListModel);
+        rightPanel.add(buLabel).setBounds(0, 20, 100, 30);
         JScrollPane bucketScrollPane = makeScrollPane(bucketJList);
+        rightPanel.add(bucketScrollPane).setBounds(0, 60, 100, 140);
+
+        JLabel numCountryBucket = new JLabel("# of countries: ");
+        JLabel numCountryBucketNum = new JLabel(String.valueOf(numberOnBucketList));
+        rightPanel.add(numCountryBucket).setBounds(120, 50, 120, 25);
+        rightPanel.add(numCountryBucketNum).setBounds(240, 50, 20, 25);
+
+
+        JLabel sumCostBucket = new JLabel("money to save: " + bucketListTotalCost);
+        rightPanel.add(sumCostBucket).setBounds(120, 80, 140, 25);
+
 
         JLabel viLabel = new JLabel("Your Visited List");
-        visitedJList = new JList(visitedListModel);
+        rightPanel.add(viLabel).setBounds(0,220, 100, 30);
         JScrollPane visitedScrollPane = makeScrollPane(visitedJList);
+        rightPanel.add(visitedScrollPane).setBounds(0, 260, 100, 140);
 
         removeFromBucketList = new JButton("remove");
         removeFromBucketList.addActionListener(new RemoveListener());
-
-        rightPanel.add(buLabel).setBounds(0, 20, 100, 30);
-        rightPanel.add(bucketScrollPane).setBounds(0, 60, 100, 140);
-        rightPanel.add(viLabel).setBounds(0,220, 100, 30);
-        rightPanel.add(visitedScrollPane).setBounds(0, 260, 100, 140);
-        rightPanel.add(removeFromBucketList).setBounds(120, 60, 90, 25);
+        rightPanel.add(removeFromBucketList).setBounds(120, 120, 100, 25);
 
         return rightPanel;
     }
@@ -221,10 +234,10 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         if (!e.getValueIsAdjusting()) {
 
             if (bucketJList.getSelectedIndex() == -1) {
-                //No selection, disable fire button.
+                //No selection, disable remove button
                 removeFromBucketList.setEnabled(false);
             } else {
-                //Selection, enable the fire button.
+                //Selection, enable the remove button.
                 removeFromBucketList.setEnabled(true);
             }
         }
@@ -265,13 +278,13 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         private JList pairedList;
         private int costSum;
 
-//        public AddListener(JButton button, DefaultListModel modelList, JList pairedList, int costSum) {
+        public AddListener(JButton button, DefaultListModel modelList, JList pairedList, int costSum) {
 
-        public AddListener(JButton button) {
+//        public AddListener(JButton button) {
             this.button = button;
-//            this.modelList = modelList;
-//            this.pairedList = pairedList;
-//            this.costSum = costSum;
+            this.modelList = modelList;
+            this.pairedList = pairedList;
+            this.costSum = costSum;
         }
 
         // Required by ActionListener.
@@ -280,7 +293,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             int countryCostInteger = Integer.parseInt(countryCost.getText());
 
             // User didn't type in a unique country name, request attention
-            if (countryNameString.equals("") || bucketListModel.contains(countryNameString)) {
+            if (countryNameString.equals("") || modelList.contains(countryNameString)) {
                 Toolkit.getDefaultToolkit().beep();
 
                 // my previous user story says to update travel cost
@@ -288,19 +301,14 @@ public class MainFrame extends JFrame implements ListSelectionListener {
                 return;
             }
 
-            int index = bucketJList.getSelectedIndex(); // get selected index
-            if (index == -1) { // no selection, so insert at beginning
-                index = 0;
-            } else {           // add after the selected item
-                index++;
-            }
+            // always add to the end of the list
+            modelList.addElement(countryName.getText());
+//            costSum += countryCostInteger;
+//            numberOnBucketList++;
 
-            bucketListModel.insertElementAt(countryName.getText(), index);
-            costSum += countryCostInteger;
-
-            //Select the new item and make it visible.
-            bucketJList.setSelectedIndex(index);
-            bucketJList.ensureIndexIsVisible(index);
+            // Select the new item and make it visible.
+            pairedList.setSelectedIndex(pairedList.getLastVisibleIndex());
+            pairedList.ensureIndexIsVisible(pairedList.getLastVisibleIndex());
 
             //Reset the text field.
             countryName.requestFocusInWindow();
@@ -309,57 +317,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             countryCost.setText("");
         }
 
-//        //This method tests for string equality. You could certainly
-//        //get more sophisticated about the algorithm.  For example,
-//        //you might want to ignore white space and capitalization.
-//        protected boolean alreadyInList(String name) {
-//            return listModel.contains(name);
-//        }
-//
-//        //Required by DocumentListener.
-//        public void insertUpdate(DocumentEvent e) {
-//            enableButton();
-//        }
-//
-//        //Required by DocumentListener.
-//        public void removeUpdate(DocumentEvent e) {
-//            handleEmptyTextField(e);
-//        }
-//
-//        //Required by DocumentListener.
-//        public void changedUpdate(DocumentEvent e) {
-//            if (!handleEmptyTextField(e)) {
-//                enableButton();
-//            }
-//        }
-//
-//        private void enableButton() {
-//            if (!alreadyEnabled) {
-//                button.setEnabled(true);
-//            }
-//        }
-//
-//        private boolean handleEmptyTextField(DocumentEvent e) {
-//            if (e.getDocument().getLength() <= 0) {
-//                button.setEnabled(false);
-//                alreadyEnabled = false;
-//                return true;
-//            }
-//            return false;
-//        }
     }
 
-
-
-
-//    public JPanel imagePanel() {
-//        JPanel imagePanel = new JPanel();
-//
-//        JLabel worldLabel = new JLabel(" ");
-//        ImageIcon worldMap = createImageIcon();
-//        worldLabel.setIcon(worldMap);
-//
-//        imagePanel.add(worldLabel);
-//        return imagePanel;
-//    }
 }
