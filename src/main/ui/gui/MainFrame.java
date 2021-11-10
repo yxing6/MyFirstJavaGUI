@@ -121,9 +121,9 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         leftPanel.add(countryCost).setBounds(150, 350, 120,25);
 
         addToBucketList = new JButton("Add to your bucket list");
-//        AddListener addToBucketListener = new AddListener(addToBucketList);
-        AddListener addToBucketListener;
-        addToBucketListener = new AddListener(addToBucketList, bucketListModel, bucketJList, bucketListTotalCost);
+        AddListener addToBucketListener = new AddListener(addToBucketList);
+//        AddListener addToBucketListener;
+//        addToBucketListener = new AddListener(addToBucketList, bucketListModel, bucketJList, bucketListTotalCost);
         addToBucketList.addActionListener(addToBucketListener);
         leftPanel.add(addToBucketList).setBounds(200, 400, 150, 25);
 
@@ -265,13 +265,13 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         private JList pairedList;
         private int costSum;
 
-        public AddListener(JButton button, DefaultListModel modelList, JList pairedList, int costSum) {
+//        public AddListener(JButton button, DefaultListModel modelList, JList pairedList, int costSum) {
 
-//        public AddListener(JButton button) {
+        public AddListener(JButton button) {
             this.button = button;
-            this.modelList = modelList;
-            this.pairedList = pairedList;
-            this.costSum = costSum;
+//            this.modelList = modelList;
+//            this.pairedList = pairedList;
+//            this.costSum = costSum;
         }
 
         // Required by ActionListener.
