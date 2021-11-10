@@ -38,6 +38,9 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     private JButton addToVisitedList;
     private JButton removeFromBucketList;
 
+    private AddListener addToBucketListener;
+    private AddListener addToVisitedListener;
+
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     private static final String JSON_STORE = "./data/travels.json";
@@ -125,13 +128,11 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         leftPanel.add(countryCost).setBounds(130, 350, 100,25);
 
         addToBucketList = new JButton("Add to bucket list");
-        AddListener addToBucketListener;
         addToBucketListener = new AddListener(addToBucketList, bucketListModel, bucketJList, bucketListTotalCost);
         addToBucketList.addActionListener(addToBucketListener);
         leftPanel.add(addToBucketList).setBounds(250, 310, 150, 25);
 
         addToVisitedList = new JButton("Add to visited list");
-        AddListener addToVisitedListener;
         addToVisitedListener = new AddListener(addToVisitedList, visitedListModel, visitedJList, visitedListTotalCost);
         addToVisitedList.addActionListener(addToVisitedListener);
         leftPanel.add(addToVisitedList).setBounds(250, 350, 150, 25);
