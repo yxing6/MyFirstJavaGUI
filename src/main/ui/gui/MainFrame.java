@@ -26,7 +26,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     private DefaultListModel bucketListModel;
     private JList bucketJList;
     private JLabel bucketSizeLabel;
-    private int bucketSizeInt;
+    protected int bucketSizeInt;
 
     private DefaultListModel visitedListModel;
     private JList visitedJList;
@@ -241,6 +241,13 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     public void updateDisplay() {
 
         removeFromBucketList.addActionListener(new RemoveListener());
+        AddListener bucketAdd = new AddListener(bucketListModel, bucketJList, 1);
+        addToBucketList.addActionListener(bucketAdd);
+
+        addToVisitedList.addActionListener(new AddListener(visitedListModel, visitedJList, 2));
+//        bucketSizeInt = bucketAdd.getSize();
+        System.out.println("bucketsize in here please work = " + bucketSizeInt);
+
 //        removeFromBucketList.addMouseListener(new RemoveAdapter());
 //        bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
 //        addToBucketList.addActionListener(new AddListener(bucketListModel, bucketJList));
@@ -286,9 +293,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 
                 //            int size = bucketListModel.getSize();
-
-
             }
+            System.out.println("bucket lsit sizse is now: " + bucketSizeInt);
 //            else {                                        // non-empty list, decrement the size of
 //                if (index == bucketListModel.getSize()) {        // Select an index.
 //                    index--;                                //removed item in last position
@@ -333,10 +339,12 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
         private DefaultListModel modelList;
         private JList pairedJList;
+        private int whichList;
 
-        public AddListener(DefaultListModel modelList, JList pairedJList) {
+        public AddListener(DefaultListModel modelList, JList pairedJList, int whichList) {
             this.modelList = modelList;
             this.pairedJList = pairedJList;
+            this.whichList = whichList;
         }
 
         // Required by ActionListener.
@@ -355,6 +363,15 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
             // always add to the end of the list
             modelList.addElement(countryName.getText());
+            if (whichList == 1) {
+                bucketSizeInt++;
+                bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
+            }
+            if (whichList == 2) {
+                visitedSizeInt++;
+                visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
+            }
+
 
             // Select the new item and make it visible.
 //            pairedJList.setSelectedIndex(pairedJList.getLastVisibleIndex());
@@ -366,6 +383,11 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             countryCost.requestFocusInWindow();
             countryCost.setText("");
         }
+
+//
+//        public int getSize() {
+//            return currentSize;
+//        }
 
     }
 
