@@ -151,23 +151,11 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         countryPanel.add(countryCost).setBounds(130, 50, 100,25);
 
         addToBucketList = new JButton("Add to bucket list");
-//        addToBucketList.addActionListener(new AddListener(bucketListModel, bucketJList));
-//        addToBucketList.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                bucketSizeInt++;
-//            }
-//        });
+        addToBucketList.addActionListener(new AddListener(bucketListModel, bucketJList, 1));
         countryPanel.add(addToBucketList).setBounds(250, 10, 150, 25);
 
         addToVisitedList = new JButton("Add to visited list");
-//        addToVisitedList.addActionListener(new AddListener(visitedListModel, visitedJList));
-//        addToVisitedList.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                visitedSizeInt++;
-//            }
-//        });
+        addToVisitedList.addActionListener(new AddListener(visitedListModel, visitedJList, 2));
         countryPanel.add(addToVisitedList).setBounds(250, 50, 150, 25);
 
         return countryPanel;
@@ -188,8 +176,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         bucketListPanel.add(bucketSizeLabel).setBounds(120, 50, 200, 25);
 
         removeFromBucketList = new JButton("remove");
-//        removeFromBucketList.addActionListener(new RemoveListener());
-//        removeFromBucketList.addMouseListener(new RemoveAdapter());
+        removeFromBucketList.addActionListener(new RemoveListener());
         bucketListPanel.add(removeFromBucketList).setBounds(120, 120, 100, 25);
 
         return bucketListPanel;
@@ -238,45 +225,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
-    public void updateDisplay() {
-
-        removeFromBucketList.addActionListener(new RemoveListener());
-        AddListener bucketAdd = new AddListener(bucketListModel, bucketJList, 1);
-        addToBucketList.addActionListener(bucketAdd);
-
-        addToVisitedList.addActionListener(new AddListener(visitedListModel, visitedJList, 2));
-//        bucketSizeInt = bucketAdd.getSize();
-        System.out.println("bucketsize in here please work = " + bucketSizeInt);
-
-//        removeFromBucketList.addMouseListener(new RemoveAdapter());
-//        bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-//        addToBucketList.addActionListener(new AddListener(bucketListModel, bucketJList));
-//        addToBucketList.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                bucketSizeInt++;
-//                bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-//                System.out.println("number on bucketlist:" + bucketSizeInt);
-//            }
-//        });
-
-    }
-
-
-//    class RemoveAdapter extends MouseAdapter {
-//
-//        @Override
-//        public void mouseClicked(MouseEvent e) {
-//
-//            if (bucketSizeInt > 0) {
-//                bucketSizeInt--;
-//                bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-//            }
-//            System.out.println("number on bucketlist:" + bucketSizeInt);
-//        }
-//    }
-
-
     class RemoveListener implements ActionListener {
 
         @Override
@@ -290,11 +238,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
             if (bucketSizeInt == 0) {                                       // once empty, disable remove button
                 removeFromBucketList.setEnabled(false);
-
-
-                //            int size = bucketListModel.getSize();
             }
-            System.out.println("bucket lsit sizse is now: " + bucketSizeInt);
+
 //            else {                                        // non-empty list, decrement the size of
 //                if (index == bucketListModel.getSize()) {        // Select an index.
 //                    index--;                                //removed item in last position
@@ -312,28 +257,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
-//    class AddAdapter extends MouseAdapter {
-//
-//        private JLabel myLabel;
-////        private int size;
-//
-//        public AddAdapter(JLabel myLabel, int size, int whichList) {
-//            this.myLabel = myLabel;
-//            if (whichList == 0) {
-//
-//            }
-////            this.size = size;
-//
-//        }
-//
-//        @Override
-//        public void mouseClicked(MouseEvent e) {
-//            size++;
-//            myLabel.setText("# of countries: " + size);
-//        }
-//    }
-
-
     // This listener is shared by the text field and the add button.
     class AddListener implements ActionListener {
 
@@ -341,13 +264,14 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         private JList pairedJList;
         private int whichList;
 
+
         public AddListener(DefaultListModel modelList, JList pairedJList, int whichList) {
             this.modelList = modelList;
             this.pairedJList = pairedJList;
             this.whichList = whichList;
         }
 
-        // Required by ActionListener.
+
         public void actionPerformed(ActionEvent e) {
             String countryNameString = countryName.getText();
             int countryCostInteger = Integer.parseInt(countryCost.getText());
@@ -384,10 +308,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             countryCost.setText("");
         }
 
-//
-//        public int getSize() {
-//            return currentSize;
-//        }
 
     }
 
