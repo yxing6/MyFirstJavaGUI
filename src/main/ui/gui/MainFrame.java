@@ -138,29 +138,39 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     // set up label and text field for adding a country in one panel to be located on the bottom left of the frame
     public JPanel addCountryPanel() {
 
-        JPanel addCountryPanel = new JPanel();
-        addCountryPanel.setLayout(null);
+        JPanel countryPanel = new JPanel();
+        countryPanel.setLayout(null);
 
         JLabel countryNameLabel = new JLabel("Country Name:");
-        addCountryPanel.add(countryNameLabel).setBounds(20, 10, 100, 25);
+        countryPanel.add(countryNameLabel).setBounds(20, 10, 100, 25);
         countryName = new JTextField();
-        addCountryPanel.add(countryName).setBounds(130, 10, 100,25);
+        countryPanel.add(countryName).setBounds(130, 10, 100,25);
         JLabel countryCostLabel = new JLabel("Country Cost:");
-        addCountryPanel.add(countryCostLabel).setBounds(20, 50, 100, 25);
+        countryPanel.add(countryCostLabel).setBounds(20, 50, 100, 25);
         countryCost = new JTextField();
-        addCountryPanel.add(countryCost).setBounds(130, 50, 100,25);
+        countryPanel.add(countryCost).setBounds(130, 50, 100,25);
 
         addToBucketList = new JButton("Add to bucket list");
-        addToBucketList.addActionListener(new AddListener(bucketListModel, bucketJList));
-        addToBucketList.addMouseListener(new AddAdapter(bucketSizeLabel, bucketSizeInt));
-        addCountryPanel.add(addToBucketList).setBounds(250, 10, 150, 25);
+//        addToBucketList.addActionListener(new AddListener(bucketListModel, bucketJList));
+//        addToBucketList.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                bucketSizeInt++;
+//            }
+//        });
+        countryPanel.add(addToBucketList).setBounds(250, 10, 150, 25);
 
         addToVisitedList = new JButton("Add to visited list");
-        addToVisitedList.addActionListener(new AddListener(visitedListModel, visitedJList));
-        addToVisitedList.addMouseListener(new AddAdapter(visitedSizeLabel, visitedSizeInt));
-        addCountryPanel.add(addToVisitedList).setBounds(250, 50, 150, 25);
+//        addToVisitedList.addActionListener(new AddListener(visitedListModel, visitedJList));
+//        addToVisitedList.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                visitedSizeInt++;
+//            }
+//        });
+        countryPanel.add(addToVisitedList).setBounds(250, 50, 150, 25);
 
-        return addCountryPanel;
+        return countryPanel;
     }
 
 
@@ -178,8 +188,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         bucketListPanel.add(bucketSizeLabel).setBounds(120, 50, 200, 25);
 
         removeFromBucketList = new JButton("remove");
-        removeFromBucketList.addActionListener(new RemoveListener());
-        removeFromBucketList.addMouseListener(new RemoveAdapter());
+//        removeFromBucketList.addActionListener(new RemoveListener());
+//        removeFromBucketList.addMouseListener(new RemoveAdapter());
         bucketListPanel.add(removeFromBucketList).setBounds(120, 120, 100, 25);
 
         return bucketListPanel;
@@ -228,17 +238,36 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
-    class RemoveAdapter extends MouseAdapter {
+    public void updateDisplay() {
 
-        @Override
-        public void mouseClicked(MouseEvent e) {
+        removeFromBucketList.addActionListener(new RemoveListener());
+//        removeFromBucketList.addMouseListener(new RemoveAdapter());
+//        bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
+//        addToBucketList.addActionListener(new AddListener(bucketListModel, bucketJList));
+//        addToBucketList.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                bucketSizeInt++;
+//                bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
+//                System.out.println("number on bucketlist:" + bucketSizeInt);
+//            }
+//        });
 
-            if (bucketSizeInt > 0) {
-                bucketSizeInt--;
-                bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-            }
-        }
     }
+
+
+//    class RemoveAdapter extends MouseAdapter {
+//
+//        @Override
+//        public void mouseClicked(MouseEvent e) {
+//
+//            if (bucketSizeInt > 0) {
+//                bucketSizeInt--;
+//                bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
+//            }
+//            System.out.println("number on bucketlist:" + bucketSizeInt);
+//        }
+//    }
 
 
     class RemoveListener implements ActionListener {
@@ -248,41 +277,55 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             //This method can be called only if
             //there's a valid selection
             //so go ahead and remove the selected item.
-            int index = bucketJList.getSelectedIndex();
-            bucketListModel.remove(index);
-
-            int size = bucketListModel.getSize();
-
-            if (size == 0) {                                // empty list, disable remove button
+            int index = bucketJList.getSelectedIndex();                     // get index of the selected item
+            bucketListModel.remove(index);                                  // remove item by index in the ListModel
+            bucketSizeInt--;                                                // decrement and display number
+            bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
+            if (bucketSizeInt == 0) {                                       // once empty, disable remove button
                 removeFromBucketList.setEnabled(false);
-            } else {                                        // non-empty list, decrement the size of
-                if (index == bucketListModel.getSize()) {        // Select an index.
-                    index--;                                //removed item in last position
-                }
-                bucketJList.setSelectedIndex(index);
-                bucketJList.ensureIndexIsVisible(index);
+
+
+                //            int size = bucketListModel.getSize();
+
+
             }
+//            else {                                        // non-empty list, decrement the size of
+//                if (index == bucketListModel.getSize()) {        // Select an index.
+//                    index--;                                //removed item in last position
+//                }
+//                bucketJList.setSelectedIndex(index);
+//                bucketJList.ensureIndexIsVisible(index);
+//            }
+
+//            if (bucketSizeInt > 0) {
+//                bucketSizeInt--;
+//                bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
+//            }
         }
 
     }
 
 
-    class AddAdapter extends MouseAdapter {
-
-        private JLabel myLabel;
-        private int size;
-
-        public AddAdapter(JLabel myLabel, int size) {
-            this.myLabel = myLabel;
-            this.size = size;
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            size++;
-            myLabel.setText("# of countries: " + size);
-        }
-    }
+//    class AddAdapter extends MouseAdapter {
+//
+//        private JLabel myLabel;
+////        private int size;
+//
+//        public AddAdapter(JLabel myLabel, int size, int whichList) {
+//            this.myLabel = myLabel;
+//            if (whichList == 0) {
+//
+//            }
+////            this.size = size;
+//
+//        }
+//
+//        @Override
+//        public void mouseClicked(MouseEvent e) {
+//            size++;
+//            myLabel.setText("# of countries: " + size);
+//        }
+//    }
 
 
     // This listener is shared by the text field and the add button.
@@ -314,8 +357,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             modelList.addElement(countryName.getText());
 
             // Select the new item and make it visible.
-            pairedJList.setSelectedIndex(pairedJList.getLastVisibleIndex());
-            pairedJList.ensureIndexIsVisible(pairedJList.getLastVisibleIndex());
+//            pairedJList.setSelectedIndex(pairedJList.getLastVisibleIndex());
+//            pairedJList.ensureIndexIsVisible(pairedJList.getLastVisibleIndex());
 
             //Reset the text field.
             countryName.requestFocusInWindow();
