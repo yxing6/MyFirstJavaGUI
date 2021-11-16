@@ -9,24 +9,12 @@
             "Travel Cost": 6000
         },
         {
-            "Country Name": "Japon",
+            "Country Name": "Japan",
             "Travel Cost": 1000
         },
         {
             "Country Name": "Thailand",
             "Travel Cost": 4000
-        },
-        {
-            "Country Name": "abc",
-            "Travel Cost": 123
-        },
-        {
-            "Country Name": "abcd",
-            "Travel Cost": 1234
-        },
-        {
-            "Country Name": "ascdg",
-            "Travel Cost": 123456
         }
     ],
     "Bucket List": [

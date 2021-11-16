@@ -11,8 +11,6 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,12 +24,16 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     private DefaultListModel bucketListModel;
     private JList bucketJList;
     private JLabel bucketSizeLabel;
-    protected int bucketSizeInt;
+    private JLabel bucketTotalCostLabel;
+    private int bucketSizeInt;
+    private int bucketTotalCost;
 
     private DefaultListModel visitedListModel;
     private JList visitedJList;
     private JLabel visitedSizeLabel;
+    private JLabel visitedTotalCostLabel;
     private int visitedSizeInt;
+    private int visitedTotalCost;
 
     private JTextField countryName;
     private JTextField countryCost;
@@ -53,8 +55,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         loadTravelList();
-        bucketSizeLabel = new JLabel();
-        visitedSizeLabel = new JLabel();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addComponentsToPane(this.getContentPane());
@@ -76,24 +76,34 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             System.out.println("Some country appears to have negative travel cost associates...");
         }
 
+        // initiate every field associated with bucket list
+        bucketSizeLabel = new JLabel();
+        bucketTotalCostLabel = new JLabel();
         bucketListModel = new DefaultListModel();
+        bucketSizeInt = travelList.numCountriesToGo();
+        bucketTotalCost = travelList.moneyNeedToSave();
         List<String> bl = travelList.countriesToGo();
         for (String s: bl) {
             bucketListModel.addElement(s);
         }
         bucketJList = new JList(bucketListModel);
-        bucketSizeInt = bucketListModel.getSize();
 
+
+        // initiate every field associated with visited list
+        visitedSizeLabel = new JLabel();
+        visitedTotalCostLabel = new JLabel();
         visitedListModel = new DefaultListModel();
         List<String> vl = travelList.countriesVisited();
         for (String s: vl) {
             visitedListModel.addElement(s);
         }
         visitedJList = new JList(visitedListModel);
-        visitedSizeInt = visitedListModel.getSize();
+        visitedSizeInt = travelList.numCountriesVisited();
+        visitedTotalCost = travelList.moneySpentOnTravel();
     }
 
 
+    // add each individual panel tp the container
     public void addComponentsToPane(Container pane) {
 
         pane.setLayout(null);
@@ -105,19 +115,16 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
+    // construct an image panel to the top left of the frame and add an image
     public JPanel imagePanel() {
         JPanel imagePanel = new JPanel();
         imagePanel.setLayout(null);
-//        imagePanel.setBackground(new Color(0x929BA7));
 
         // set up a world map on the top left of the frame
         JLabel worldLabel = new JLabel();
-//        worldLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-//        worldLabel.setVerticalTextPosition(SwingConstants.CENTER);
         ImageIcon worldMap = createImageIcon();
         worldLabel.setIcon(worldMap);
         imagePanel.add(worldLabel).setBounds(20, 0, 500, 300);
-
 
         return imagePanel;
     }
@@ -135,7 +142,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
-    // set up label and text field for adding a country in one panel to be located on the bottom left of the frame
+    // construct a panel to the bottom left of the frame
+    // set up label and text field for adding a country into either one of the lists
     public JPanel addCountryPanel() {
 
         JPanel countryPanel = new JPanel();
@@ -162,6 +170,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
+    // construct a panel to the top right of the frame
+    // place bucket list, it's associated information, and a remove button special to bucketList
     public JPanel bucketListPanel() {
 
         JPanel bucketListPanel = new JPanel();
@@ -173,16 +183,21 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         bucketListPanel.add(bucketScrollPane).setBounds(0, 60, 100, 140);
 
         bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-        bucketListPanel.add(bucketSizeLabel).setBounds(120, 50, 200, 25);
+        bucketListPanel.add(bucketSizeLabel).setBounds(120, 50, 200, 30);
+
+        bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
+        bucketListPanel.add(bucketTotalCostLabel).setBounds(120, 90, 200, 30);
 
         removeFromBucketList = new JButton("remove");
         removeFromBucketList.addActionListener(new RemoveListener());
-        bucketListPanel.add(removeFromBucketList).setBounds(120, 120, 100, 25);
+        bucketListPanel.add(removeFromBucketList).setBounds(120, 130, 100, 25);
 
         return bucketListPanel;
     }
 
 
+    // construct a panel to the bottom right of the frame
+    // place visited list, and it's associated information.
     public JPanel visitedListPanel() {
 
         JPanel visitedListPanel = new JPanel();
@@ -194,12 +209,16 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         visitedListPanel.add(visitedScrollPanel).setBounds(0, 60, 100, 140);
 
         visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
-        visitedListPanel.add(visitedSizeLabel).setBounds(120, 50, 200, 25);
+        visitedListPanel.add(visitedSizeLabel).setBounds(120, 50, 200, 30);
+
+        visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
+        visitedListPanel.add(visitedTotalCostLabel).setBounds(120, 90, 200, 30);
 
         return visitedListPanel;
     }
 
 
+    // a JScrollPane to be used by both BucketList and VisitedList
     public JScrollPane makeScrollPane(JList myJList) {
         myJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         myJList.setSelectedIndex(0);
@@ -209,7 +228,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
-    @Override
+    // Override method required by ListSelectionListener
     public void valueChanged(ListSelectionEvent e) {
 
         if (!e.getValueIsAdjusting()) {
@@ -225,87 +244,86 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
+    // This listener is built following the Java8 Component-ListDemo Project.
+    // Remove listener is only used by bucket list. The country on visited list can not be removed.
     class RemoveListener implements ActionListener {
 
-        @Override
+        // Remove button will be functional only if an item is selected
         public void actionPerformed(ActionEvent e) {
-            //This method can be called only if
-            //there's a valid selection
-            //so go ahead and remove the selected item.
-            int index = bucketJList.getSelectedIndex();                     // get index of the selected item
-            bucketListModel.remove(index);                                  // remove item by index in the ListModel
-            bucketSizeInt--;                                                // decrement and display number
+
+            // get index of the selected item and remove by index
+            int index = bucketJList.getSelectedIndex();
+            bucketListModel.remove(index);
+
+            // decrement and display number
+            bucketSizeInt--;
             bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-            if (bucketSizeInt == 0) {                                       // once empty, disable remove button
+
+            // once empty, disable the remove button
+            if (bucketSizeInt == 0) {
                 removeFromBucketList.setEnabled(false);
             }
-
-//            else {                                        // non-empty list, decrement the size of
-//                if (index == bucketListModel.getSize()) {        // Select an index.
-//                    index--;                                //removed item in last position
-//                }
-//                bucketJList.setSelectedIndex(index);
-//                bucketJList.ensureIndexIsVisible(index);
-//            }
-
-//            if (bucketSizeInt > 0) {
-//                bucketSizeInt--;
-//                bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-//            }
         }
-
     }
 
 
-    // This listener is shared by the text field and the add button.
+    // This listener is built following the Java8 Component-ListDemo Project
+    // AddListener is shared by the text field and the add button for Bucket and Visited Lists
     class AddListener implements ActionListener {
 
         private DefaultListModel modelList;
         private JList pairedJList;
         private int whichList;
+        String countryNameString;
+        int countryCostInteger;
 
-
+        // at construction, programmer identify the list they intended to modify
         public AddListener(DefaultListModel modelList, JList pairedJList, int whichList) {
             this.modelList = modelList;
             this.pairedJList = pairedJList;
             this.whichList = whichList;
         }
 
-
         public void actionPerformed(ActionEvent e) {
-            String countryNameString = countryName.getText();
-            int countryCostInteger = Integer.parseInt(countryCost.getText());
+            countryNameString = countryName.getText();
+            countryCostInteger = Integer.parseInt(countryCost.getText());
 
-            // User didn't type in a unique country name, request attention
+            // request attention if the user entered non-unique country
             if (countryNameString.equals("") || modelList.contains(countryNameString)) {
                 Toolkit.getDefaultToolkit().beep();
-
-                // my previous user story says to update travel cost
                 countryName.requestFocusInWindow();
                 return;
             }
 
-            // always add to the end of the list
-            modelList.addElement(countryName.getText());
+            // otherwise, add the country name to the end of the display list
+            modelList.addElement(countryNameString);
+
+            // update fields according to method call
             if (whichList == 1) {
-                bucketSizeInt++;
-                bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-            }
-            if (whichList == 2) {
-                visitedSizeInt++;
-                visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
+                updateBucketList();
+            } else if (whichList == 2) {
+                updateVisitedList();
             }
 
-
-            // Select the new item and make it visible.
-//            pairedJList.setSelectedIndex(pairedJList.getLastVisibleIndex());
-//            pairedJList.ensureIndexIsVisible(pairedJList.getLastVisibleIndex());
-
-            //Reset the text field.
+            // reset the text field.
             countryName.requestFocusInWindow();
             countryName.setText("");
             countryCost.requestFocusInWindow();
             countryCost.setText("");
+        }
+
+        public void updateBucketList() {
+            bucketSizeInt++;
+            bucketTotalCost += countryCostInteger;
+            bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
+            bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
+        }
+
+        public void updateVisitedList() {
+            visitedSizeInt++;
+            visitedTotalCost += countryCostInteger;
+            visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
+            visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
         }
 
 
