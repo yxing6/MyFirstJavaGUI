@@ -1,5 +1,6 @@
 package ui.gui;
 
+import model.Country;
 import model.TravelList;
 import model.exception.NegativeCostException;
 import persistence.JsonReader;
@@ -11,6 +12,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -101,15 +103,19 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         menuBar.add(loadMenu);
         menuBar.add(saveMenu);
 
-
-        jsonWriter = new JsonWriter(JSON_STORE);
-
         loadMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 loadTravelList();
                 bucketListPanel().repaint();
                 visitedListPanel().repaint();
+            }
+        });
+
+        saveMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                writeTravelList();
             }
         });
 
@@ -147,6 +153,21 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             visitedListModel.addElement(s);
         }
         visitedJList = new JList(visitedListModel);
+    }
+
+
+    private void writeTravelList() {
+
+        travelListOut = travelList;
+        jsonWriter = new JsonWriter(JSON_STORE);
+        try {
+            jsonWriter.open();
+            jsonWriter.write(travelList);
+            jsonWriter.close();
+            System.out.println("Saved the travel list to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
     }
 
 
@@ -337,32 +358,37 @@ public class MainFrame extends JFrame implements ListSelectionListener {
                 countryName.requestFocusInWindow();
                 return;
             }
-
             // otherwise, add the country name to the end of the display list
             modelList.addElement(countryNameString);
 
-            // update fields according to method call
-            if (whichList == 1) {
-                updateBucketList();
-            } else if (whichList == 2) {
-                updateVisitedList();
+            // construct a country, add it to display list also the list for date save
+            try {
+                Country country = new Country(countryNameString, countryCostInteger);
+                if (whichList == 1) {
+                    travelListOut.addCountryToGo(country);
+                    updateBucketListLabels();
+                } else if (whichList == 2) {
+                    travelListOut.addCountryVisited(country);
+                    updateVisitedListLabels();
+                }
+            } catch (NegativeCostException ex) {
+                System.out.println("Cost cannot be negative");
             }
 
             // reset the text field.
             countryName.requestFocusInWindow();
             countryName.setText("");
-            countryCost.requestFocusInWindow();
             countryCost.setText("");
         }
 
-        public void updateBucketList() {
+        public void updateBucketListLabels() {
             bucketSizeInt++;
             bucketTotalCost += countryCostInteger;
             bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
             bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
         }
 
-        public void updateVisitedList() {
+        public void updateVisitedListLabels() {
             visitedSizeInt++;
             visitedTotalCost += countryCostInteger;
             visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
