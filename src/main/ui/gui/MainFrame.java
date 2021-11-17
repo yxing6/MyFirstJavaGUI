@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,6 +32,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     private JList bucketJList;
     private JLabel bucketSizeLabel;
     private JLabel bucketTotalCostLabel;
+    private ArrayList<Integer> bucketCountryCost;
     private int bucketSizeInt;
     private int bucketTotalCost;
 
@@ -39,6 +41,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     private JList visitedJList;
     private JLabel visitedSizeLabel;
     private JLabel visitedTotalCostLabel;
+    private List visitedCountryCost;
     private int visitedSizeInt;
     private int visitedTotalCost;
 
@@ -87,6 +90,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         bucketJList = new JList(bucketListModel);
         bucketSizeLabel = new JLabel();
         bucketTotalCostLabel = new JLabel();
+        bucketCountryCost = new ArrayList();
         bucketSizeInt = 0;
         bucketTotalCost = 0;
 
@@ -94,6 +98,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         visitedJList = new JList(visitedListModel);
         visitedSizeLabel = new JLabel();
         visitedTotalCostLabel = new JLabel();
+        visitedCountryCost = new ArrayList();
         visitedSizeInt = 0;
         visitedTotalCost = 0;
 
@@ -105,8 +110,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         removeFromBucketList = new JButton(REMOVE_FROM_BUCKET_LIST);
         moveToVisitedList = new JButton(MOVE_TO_VISITED_LIST);
 
-        jsonReader = new JsonReader(JSON_STORE);
-        jsonWriter = new JsonWriter(JSON_STORE);
         travelListIn = new TravelList();
         travelListOut = new TravelList();
     }
@@ -149,6 +152,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     // EFFECTS: Load in travelList.json and handle the negativeCostException and file IO Exception
     private void loadTravelList() {
 
+        jsonReader = new JsonReader(JSON_STORE);
+
         try {
             travelListIn = jsonReader.read();
             travelListOut = travelListIn;
@@ -164,12 +169,12 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 
     // MODIFIES: this
-    // EFFECTS: loading data in the BucketList and assign to the corresponding fields
+    // EFFECTS: loading data in the BucketList and assign to the corresponding GUI fields
     public void loadingBucketData() {
-        // load data from travelList into bucketList
-        List<String> bl = travelListIn.countriesToGo();
-        for (String s: bl) {
-            bucketListModel.addElement(s);
+        List<Country> bl = travelListIn.getBucketList();
+        for (Country c: bl) {
+            bucketListModel.addElement(c.getCountryName());
+            bucketCountryCost.add(c.getCost());
         }
         bucketSizeInt += travelListIn.numCountriesToGo();
         bucketTotalCost += travelListIn.moneyNeedToSave();
@@ -179,11 +184,12 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
 
     // MODIFIES: this
-    // EFFECTS: loading data in the visitedList and assign to the corresponding fields
+    // EFFECTS: loading data in the visitedList and assign to the corresponding GUI fields
     public void loadingVisitedData() {
-        List<String> vl = travelListIn.countriesVisited();
-        for (String s: vl) {
-            visitedListModel.addElement(s);
+        List<Country> vl = travelListIn.getVisitedList();
+        for (Country c: vl) {
+            visitedListModel.addElement(c.getCountryName());
+            visitedCountryCost.add(c.getCost());
         }
         visitedSizeInt += travelListIn.numCountriesVisited();
         visitedTotalCost += travelListIn.moneySpentOnTravel();
@@ -196,6 +202,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     // EFFECTS: write all panel content to the travelList.json file
     private void writeTravelList() {
 
+        jsonWriter = new JsonWriter(JSON_STORE);
+
         try {
             jsonWriter.open();
             jsonWriter.write(travelListOut);
@@ -207,49 +215,46 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
-    // add each individual panel tp the container
+    // MODIFIES: this
+    // EFFECTS: add each individual panel to the container
+    //          this pane uses manual coordinates
     public void addComponentsToPane(Container pane) {
 
         pane.setLayout(null);
         pane.add(imagePanel()).setBounds(0, 0, 500, 300);
         pane.add(countryPanel()).setBounds(0, 300, 500, 200);
-        setUpBucketListPanel();
-        pane.add(bucketListPanel).setBounds(500, 0, 300, 200);
+        setupBucketListPanel();
+        pane.add(bucketListPanel).setBounds(500, 0, 300, 230);
         setupVisitedListPanel();
-        pane.add(visitedListPanel).setBounds(500, 200, 300, 200);
+        pane.add(visitedListPanel).setBounds(500, 230, 300, 200);
 
     }
 
 
-    // construct an image panel to the top left of the frame and add an image
+    // MODIFIES: this
+    // EFFECTS: construct an image panel to the top left of the frame and
+    //          process the intake image to a smaller size as an image icon to the image panel
     public JPanel imagePanel() {
         JPanel imagePanel = new JPanel();
         imagePanel.setLayout(null);
 
         // set up a world map on the top left of the frame
         JLabel worldLabel = new JLabel();
-        ImageIcon worldMap = createImageIcon();
-        worldLabel.setIcon(worldMap);
+        ImageIcon imageIcon = new ImageIcon("./data/world-map-2500.jpg");
+        Image bigMap = imageIcon.getImage();
+        Image smallMap = bigMap.getScaledInstance(450, 250, java.awt.Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(smallMap);
+        worldLabel.setIcon(imageIcon);
         imagePanel.add(worldLabel).setBounds(20, 0, 500, 300);
 
         return imagePanel;
     }
 
 
-    // process the intake image to a smaller size
-    public ImageIcon createImageIcon() {
-
-        ImageIcon imageIcon = new ImageIcon("./data/world-map-2500.jpg");
-        Image bigMap = imageIcon.getImage();
-        Image smallMap = bigMap.getScaledInstance(450, 250, java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(smallMap);
-
-        return imageIcon;
-    }
-
-
-    // construct a panel to the bottom left of the frame
-    // set up label and text field for adding a country into either one of the lists
+    // MODIFIES: this
+    // EFFECTS: construct a panel to the bottom left of the frame
+    //          set up label and text field for create a new country in this application
+    //          set up two buttons with action listener to add the country into either one of the lists
     public JPanel countryPanel() {
 
         JPanel countryPanel = new JPanel();
@@ -263,10 +268,10 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         countryPanel.add(countryCostLabel).setBounds(20, 50, 100, 25);
         countryPanel.add(countryCost).setBounds(130, 50, 100, 25);
 
-        addToBucketList.addActionListener(new AddListener(bucketListModel, bucketJList, 1));
+        addToBucketList.addActionListener(new AddListener(bucketListModel, bucketJList, bucketCountryCost,1));
         countryPanel.add(addToBucketList).setBounds(250, 10, 150, 25);
 
-        addToVisitedList.addActionListener(new AddListener(visitedListModel, visitedJList, 2));
+        addToVisitedList.addActionListener(new AddListener(visitedListModel, visitedJList, visitedCountryCost, 2));
         countryPanel.add(addToVisitedList).setBounds(250, 50, 150, 25);
 
         return countryPanel;
@@ -285,24 +290,30 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
     // construct a panel to the top right of the frame
     // place bucket list, it's associated information, and a remove button special to bucketList
-    public void setUpBucketListPanel() {
+    public void setupBucketListPanel() {
 
         bucketListPanel = new JPanel();
         bucketListPanel.setLayout(null);
 
         JLabel buLabel = new JLabel("Your Bucket List");
-        bucketListPanel.add(buLabel).setBounds(0, 20, 100, 30);
+        bucketListPanel.add(buLabel).setBounds(0, 20, 100, 20);
+
         JScrollPane bucketScrollPane = makeScrollPane(bucketJList);
-        bucketListPanel.add(bucketScrollPane).setBounds(0, 60, 100, 140);
+        bucketListPanel.add(bucketScrollPane).setBounds(0, 50, 100, 100);
 
         bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-        bucketListPanel.add(bucketSizeLabel).setBounds(120, 50, 200, 30);
+        bucketListPanel.add(bucketSizeLabel).setBounds(120, 50, 130, 30);
 
         bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
-        bucketListPanel.add(bucketTotalCostLabel).setBounds(120, 90, 200, 30);
+        bucketListPanel.add(bucketTotalCostLabel).setBounds(120, 90, 130, 30);
 
+        removeFromBucketList.setEnabled(false);
         removeFromBucketList.addActionListener(new RemoveListener());
-        bucketListPanel.add(removeFromBucketList).setBounds(120, 130, 100, 25);
+        bucketListPanel.add(removeFromBucketList).setBounds(10, 165, 200, 25);
+
+        moveToVisitedList.setEnabled(false);
+        moveToVisitedList.addActionListener(new RemoveListener());
+        bucketListPanel.add(moveToVisitedList).setBounds(10, 200, 200, 25);
     }
 
 
@@ -314,15 +325,16 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         visitedListPanel.setLayout(null);
 
         JLabel viLabel = new JLabel("Your Visited List");
-        visitedListPanel.add(viLabel).setBounds(0, 20, 100, 30);
+        visitedListPanel.add(viLabel).setBounds(0, 20, 100, 20);
+
         JScrollPane visitedScrollPanel = makeScrollPane(visitedJList);
-        visitedListPanel.add(visitedScrollPanel).setBounds(0, 60, 100, 140);
+        visitedListPanel.add(visitedScrollPanel).setBounds(0, 50, 100, 120);
 
         visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
-        visitedListPanel.add(visitedSizeLabel).setBounds(120, 50, 200, 30);
+        visitedListPanel.add(visitedSizeLabel).setBounds(120, 50, 130, 30);
 
         visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
-        visitedListPanel.add(visitedTotalCostLabel).setBounds(120, 90, 200, 30);
+        visitedListPanel.add(visitedTotalCostLabel).setBounds(120, 90, 130, 30);
     }
 
 
@@ -349,15 +361,29 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         // Remove button will be functional only if an item is selected
         public void actionPerformed(ActionEvent e) {
 
-            // get index of the selected item and remove by index
+            // get index and value of the selected item and remove by index
             int index = bucketJList.getSelectedIndex();
-            bucketListModel.remove(index);
+            String name = bucketJList.getSelectedValue().toString();
+            int selectedCost = bucketCountryCost.get(index);
 
-            // decrement and display number
+            bucketListModel.remove(index);
+            bucketCountryCost.remove(index);
+
+            // remove this item in the output travelList too
+            try {
+                Country tempCountry = new Country(name, selectedCost);
+                travelListOut.deleteCountryToGo(tempCountry);
+            } catch (NegativeCostException ex) {
+                // this won't happen if a country is already displaying on the screen
+            }
+
+
+
+            // update the fields and the display
             bucketSizeInt--;
+            bucketTotalCost -= selectedCost;
             bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-//            bucketTotalCost -= Integer.parseInt(countryCost.getText());
-//            bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
+            bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
 
             // once empty, disable the remove button
             if (bucketSizeInt == 0) {
@@ -367,23 +393,28 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
-    //     This listener is built following the Java8 Component-ListDemo Project
-//     AddListener is shared by the text field and the add button for Bucket and Visited Lists
+    // This listener is built following the Java8 Component-ListDemo Project
+    // Class AddListener is shared by the text field and the add button for Bucket and Visited Lists
     class AddListener implements ActionListener {
 
         private DefaultListModel modelList;
+        private List costList;
         private JList pairedJList;
         private int whichList;
         String countryNameString;
         int countryCostInteger;
 
+        // Class constructor
         // at construction, programmer identify the list they intended to modify
-        public AddListener(DefaultListModel modelList, JList pairedJList, int whichList) {
+        public AddListener(DefaultListModel modelList, JList pairedJList, List costList, int whichList) {
             this.modelList = modelList;
             this.pairedJList = pairedJList;
+            this.costList = costList;
             this.whichList = whichList;
         }
 
+        // MODIFIES: this
+        // EFFECT: construct a new country and add the country to one of the two lists
         public void actionPerformed(ActionEvent e) {
             countryNameString = countryName.getText();
             countryCostInteger = Integer.parseInt(countryCost.getText());
@@ -396,6 +427,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             }
             // otherwise, add the country name to the end of the display list
             modelList.addElement(countryNameString);
+            costList.add(countryCostInteger);
 
             // construct a country, add it to display list also the list for date save
             try {
@@ -412,12 +444,14 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             }
 
             // reset the text field.
-            countryName.requestFocusInWindow();
             countryName.setText("");
             countryCost.setText("");
         }
 
+
         public void updateBucketListLabels() {
+            removeFromBucketList.setEnabled(true);
+            moveToVisitedList.setEnabled(true);
             bucketSizeInt++;
             bucketTotalCost += countryCostInteger;
             bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
@@ -430,7 +464,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
             visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
         }
-
 
     }
 
