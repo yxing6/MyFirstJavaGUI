@@ -362,39 +362,36 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     // Remove listener is only used by bucket list. The country on visited list can not be removed.
     class RemoveAdapter extends MouseAdapter {
 
+        private int index;
+        private String name;
+        private int selectedCost;
+
         public void mouseClicked(MouseEvent e) {
 
             // get index and value of the selected item and remove by index
-            int index = bucketJList.getSelectedIndex();
-            String name = bucketJList.getSelectedValue().toString();
-            int selectedCost = bucketCountryCost.get(index);
+            index = bucketJList.getSelectedIndex();
+            name = bucketJList.getSelectedValue().toString();
+            selectedCost = bucketCountryCost.get(index);
 
             bucketListModel.remove(index);
             bucketCountryCost.remove(index);
+            updateBucketListLabels();
 
-            // remove this item in the output travelList too
+            // no matter which button clicked, remove this item in the output travelList bucket list
             try {
                 Country tempCountry = new Country(name, selectedCost);
                 travelListOut.deleteCountryToGo(tempCountry);
-                if (e.getComponent().getBounds().equals(moveToVisitedList.getBounds())) {
 
+                // if clicked moveToVisitedList, update the visited list labels and add to output visited list
+                if (e.getComponent().getBounds().equals(moveToVisitedList.getBounds())) {
                     visitedListModel.addElement(name);
                     visitedCountryCost.add(selectedCost);
+                    updateVisitedListLabels();
                     travelListOut.addCountryVisited(tempCountry);
-                    visitedSizeInt++;
-                    visitedTotalCost += selectedCost;
-                    visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
-                    visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
                 }
             } catch (NegativeCostException ex) {
                 // this won't happen if a country is already displaying on the screen
             }
-
-            // update the fields and the display
-            bucketSizeInt--;
-            bucketTotalCost -= selectedCost;
-            bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-            bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
 
             // once empty, disable the remove button
             if (bucketSizeInt == 0) {
@@ -403,37 +400,25 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         }
 
 
-        // Remove button will be functional only if an item is selected
-        public void actionPerformed(ActionEvent e) {
-
-//            // get index and value of the selected item and remove by index
-//            int index = bucketJList.getSelectedIndex();
-//            String name = bucketJList.getSelectedValue().toString();
-//            int selectedCost = bucketCountryCost.get(index);
-//
-//            bucketListModel.remove(index);
-//            bucketCountryCost.remove(index);
-//
-//            // remove this item in the output travelList too
-//            try {
-//                Country tempCountry = new Country(name, selectedCost);
-//                travelListOut.deleteCountryToGo(tempCountry);
-//            } catch (NegativeCostException ex) {
-//                // this won't happen if a country is already displaying on the screen
-//            }
-//
-//
-//            // update the fields and the display
-//            bucketSizeInt--;
-//            bucketTotalCost -= selectedCost;
-//            bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-//            bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
-//
-//            // once empty, disable the remove button
-//            if (bucketSizeInt == 0) {
-//                removeFromBucketList.setEnabled(false);
-//            }
+        // MODIFIES: this
+        // EFFECTS: update the label displays for bucket list
+        public void updateBucketListLabels() {
+            bucketSizeInt--;
+            bucketTotalCost -= selectedCost;
+            bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
+            bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
         }
+
+        // MODIFIES: this
+        // EFFECTS: update the label display for visited list
+        public void updateVisitedListLabels() {
+            visitedSizeInt++;
+            visitedTotalCost += selectedCost;
+            visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
+            visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
+        }
+
+
     }
 
 
@@ -493,22 +478,23 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         }
 
 
+        // MODIFIES: this
+        // EFFECTS: update the label displays for bucket list
         public void updateBucketListLabels() {
-            removeFromBucketList.setEnabled(true);
-            moveToVisitedList.setEnabled(true);
             bucketSizeInt++;
             bucketTotalCost += countryCostInteger;
             bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
             bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
         }
 
+
+        // MODIFIES: this
+        // EFFECTS: update the label display for visited list
         public void updateVisitedListLabels() {
             visitedSizeInt++;
             visitedTotalCost += countryCostInteger;
             visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
             visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
         }
-
     }
-
 }
