@@ -72,12 +72,6 @@ public class Country implements Writable {
         return countryName.hashCode();
     }
 
-    // EFFECTS: return a String representation of the country;
-    @Override
-    public String toString() {
-        return "Country(" + countryName + ")";
-    }
-
 
     // EFFECTS: return a JSONObject representing a country
     @Override
