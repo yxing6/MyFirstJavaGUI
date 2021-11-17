@@ -15,14 +15,13 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 public class MainFrame extends JFrame implements ListSelectionListener {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 500;
 
-    private TravelList travelList;
+    private TravelList travelListIn;
     private TravelList travelListOut;
 
     private JMenuBar menuBar;
@@ -30,7 +29,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     private JPanel bucketListPanel;
     private DefaultListModel bucketListModel;
     private JList bucketJList;
-//    private JScrollPane bucketScrollPane;
     private JLabel bucketSizeLabel;
     private JLabel bucketTotalCostLabel;
     private int bucketSizeInt;
@@ -52,22 +50,27 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     private JButton addToBucketList;
     private JButton addToVisitedList;
     private JButton removeFromBucketList;
+    private JButton moveToVisitedList;
 
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+
     private static final String JSON_STORE = "./data/travels.json";
+    private static final String ADD_TO_BUCKET_LIST = "Add to bucket list";
+    private static final String ADD_TO_VISITED_LIST = "Add to visited list";
+    private static final String REMOVE_FROM_BUCKET_LIST = "Remove from bucket list";
+    private static final String MOVE_TO_VISITED_LIST = "Move to visited list";
 
 
-    // create a main frame, add and display panels
+    // MODIFIES: this
+    // EFFECTS: create a main frame, add and display menu bar and panels
     public MainFrame(String name) {
 
         super(name);
 
         initContentFields();
         createMenu();
-        setJMenuBar(menuBar);
         addComponentsToPane(this.getContentPane());
-
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(WIDTH, HEIGHT);
@@ -75,7 +78,9 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         setVisible(true);
     }
 
-    // EFFECT: initiate all label, text, & button fields
+
+    // MODIFIES: this
+    // EFFECTS: initiate all label, text, & button fields
     public void initContentFields() {
 
         bucketListModel = new DefaultListModel();
@@ -94,36 +99,43 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
         countryName = new JTextField();
         countryCost = new JTextField();
-//        countryNameString = countryName.getText();
-//        countryCostInteger = Integer.parseInt(countryCost.getText());
 
-        addToBucketList = new JButton("Add to bucket list");
-        addToVisitedList = new JButton("Add to visited list");
-        removeFromBucketList = new JButton("remove");
+        addToBucketList = new JButton(ADD_TO_BUCKET_LIST);
+        addToVisitedList = new JButton(ADD_TO_VISITED_LIST);
+        removeFromBucketList = new JButton(REMOVE_FROM_BUCKET_LIST);
+        moveToVisitedList = new JButton(MOVE_TO_VISITED_LIST);
 
         jsonReader = new JsonReader(JSON_STORE);
         jsonWriter = new JsonWriter(JSON_STORE);
-        travelList = new TravelList();
+        travelListIn = new TravelList();
         travelListOut = new TravelList();
-
     }
 
+
+    // MODIFIES: this
+    // EFFECTS: initiate and set up a menu bar containing menuItems
+    //          Each menuItem is associated with an ActionListener for file load and save
     public void createMenu() {
 
         menuBar = new JMenuBar();
-        JMenuItem loadMenu = new JMenuItem("LOAD");
-        JMenuItem saveMenu = new JMenuItem("SAVE");
-        menuBar.add(loadMenu);
-        menuBar.add(saveMenu);
+        JMenu topMenu = new JMenu("FILE");
+        menuBar.add(topMenu);
 
-        loadMenu.addActionListener(new ActionListener() {
+        JMenuItem load = new JMenuItem("LOAD");
+        JMenuItem save = new JMenuItem("SAVE");
+        topMenu.add(load);
+        topMenu.add(save);
+
+        this.setJMenuBar(menuBar);
+
+        load.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 loadTravelList();
             }
         });
 
-        saveMenu.addActionListener(new ActionListener() {
+        save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 writeTravelList();
@@ -132,44 +144,58 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
     }
 
+
+    // MODIFIES: this
+    // EFFECTS: Load in travelList.json and handle the negativeCostException and file IO Exception
     private void loadTravelList() {
 
         try {
-            travelList = jsonReader.read();
-            travelListOut = travelList;
+            travelListIn = jsonReader.read();
+            travelListOut = travelListIn;
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         } catch (NegativeCostException ne) {
             System.out.println("Some country appears to have negative travel cost associates...");
         }
 
-        // load data from travelList into bucketList
-        List<String> bl = travelList.countriesToGo();
-        for (String s: bl) {
-            bucketListModel.addElement(s);
-        }
-        bucketSizeInt += travelList.numCountriesToGo();
-        bucketTotalCost += travelList.moneyNeedToSave();
-        bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-        bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
-
-
-        // load data from travelList into visitedList
-        visitedSizeInt += travelList.numCountriesVisited();
-        visitedTotalCost += travelList.moneySpentOnTravel();
-        visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
-        visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
-        List<String> vl = travelList.countriesVisited();
-        for (String s: vl) {
-            visitedListModel.addElement(s);
-        }
+        loadingBucketData();
+        loadingVisitedData();
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: loading data in the BucketList and assign to the corresponding fields
+    public void loadingBucketData() {
+        // load data from travelList into bucketList
+        List<String> bl = travelListIn.countriesToGo();
+        for (String s: bl) {
+            bucketListModel.addElement(s);
+        }
+        bucketSizeInt += travelListIn.numCountriesToGo();
+        bucketTotalCost += travelListIn.moneyNeedToSave();
+        bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
+        bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: loading data in the visitedList and assign to the corresponding fields
+    public void loadingVisitedData() {
+        List<String> vl = travelListIn.countriesVisited();
+        for (String s: vl) {
+            visitedListModel.addElement(s);
+        }
+        visitedSizeInt += travelListIn.numCountriesVisited();
+        visitedTotalCost += travelListIn.moneySpentOnTravel();
+        visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
+        visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: write all panel content to the travelList.json file
     private void writeTravelList() {
 
-        travelListOut = travelList;
-        jsonWriter = new JsonWriter(JSON_STORE);
         try {
             jsonWriter.open();
             jsonWriter.write(travelListOut);

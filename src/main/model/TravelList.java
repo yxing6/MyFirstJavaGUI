@@ -43,6 +43,15 @@ public class TravelList implements Writable {
         visitedList = new ArrayList<>();
     }
 
+    // getter for bucketList
+    public List<Country> getBucketList() {
+        return bucketList;
+    }
+
+    // getter for visitedList
+    public List<Country> getVisitedList() {
+        return visitedList;
+    }
 
     // MODIFIES: this
     // EFFECTS: a country can only on be present on the bucket list once
