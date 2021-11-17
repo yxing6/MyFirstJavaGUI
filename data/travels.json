@@ -29,6 +29,10 @@
         {
             "Country Name": "Cuba",
             "Travel Cost": 3000
+        },
+        {
+            "Country Name": "Brazil",
+            "Travel Cost": 5000
         }
     ]
 }

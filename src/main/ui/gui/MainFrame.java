@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainFrame extends JFrame implements ListSelectionListener {
@@ -77,9 +78,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     // EFFECT: initiate all label, text, & button fields
     public void initContentFields() {
 
-
         bucketListModel = new DefaultListModel();
-//        bucketJList = new JList();
         bucketJList = new JList(bucketListModel);
         bucketSizeLabel = new JLabel();
         bucketTotalCostLabel = new JLabel();
@@ -102,7 +101,10 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         addToVisitedList = new JButton("Add to visited list");
         removeFromBucketList = new JButton("remove");
 
-
+        jsonReader = new JsonReader(JSON_STORE);
+        jsonWriter = new JsonWriter(JSON_STORE);
+        travelList = new TravelList();
+        travelListOut = new TravelList();
 
     }
 
@@ -121,22 +123,20 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             }
         });
 
-//        saveMenu.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                writeTravelList();
-//            }
-//        });
+        saveMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                writeTravelList();
+            }
+        });
 
     }
 
     private void loadTravelList() {
 
-        jsonReader = new JsonReader(JSON_STORE);
-
         try {
             travelList = jsonReader.read();
-            System.out.println("Loaded the travel list from " + JSON_STORE);
+            travelListOut = travelList;
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         } catch (NegativeCostException ne) {
@@ -159,7 +159,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         visitedTotalCost += travelList.moneySpentOnTravel();
         visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
         visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
-
         List<String> vl = travelList.countriesVisited();
         for (String s: vl) {
             visitedListModel.addElement(s);
@@ -167,19 +166,19 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
-//    private void writeTravelList() {
-//
-//        travelListOut = travelList;
-//        jsonWriter = new JsonWriter(JSON_STORE);
-//        try {
-//            jsonWriter.open();
-//            jsonWriter.write(travelList);
-//            jsonWriter.close();
-//            System.out.println("Saved the travel list to " + JSON_STORE);
-//        } catch (FileNotFoundException e) {
-//            System.out.println("Unable to write to file: " + JSON_STORE);
-//        }
-//    }
+    private void writeTravelList() {
+
+        travelListOut = travelList;
+        jsonWriter = new JsonWriter(JSON_STORE);
+        try {
+            jsonWriter.open();
+            jsonWriter.write(travelListOut);
+            jsonWriter.close();
+            System.out.println("Saved the travel list to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
 
 
     // add each individual panel tp the container
@@ -331,8 +330,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             // decrement and display number
             bucketSizeInt--;
             bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-            bucketTotalCost -= Integer.parseInt(countryCost.getText());
-            bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
+//            bucketTotalCost -= Integer.parseInt(countryCost.getText());
+//            bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
 
             // once empty, disable the remove button
             if (bucketSizeInt == 0) {
@@ -376,10 +375,10 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             try {
                 Country country = new Country(countryNameString, countryCostInteger);
                 if (whichList == 1) {
-//                    travelListOut.addCountryToGo(country);
+                    travelListOut.addCountryToGo(country);
                     updateBucketListLabels();
                 } else if (whichList == 2) {
-//                    travelListOut.addCountryVisited(country);
+                    travelListOut.addCountryVisited(country);
                     updateVisitedListLabels();
                 }
             } catch (NegativeCostException ex) {
