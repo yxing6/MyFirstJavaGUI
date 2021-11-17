@@ -12,6 +12,8 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -302,17 +304,17 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         bucketListPanel.add(bucketScrollPane).setBounds(0, 50, 100, 100);
 
         bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
-        bucketListPanel.add(bucketSizeLabel).setBounds(120, 50, 130, 30);
+        bucketListPanel.add(bucketSizeLabel).setBounds(110, 50, 140, 30);
 
         bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
-        bucketListPanel.add(bucketTotalCostLabel).setBounds(120, 90, 130, 30);
+        bucketListPanel.add(bucketTotalCostLabel).setBounds(110, 90, 140, 30);
 
         removeFromBucketList.setEnabled(false);
-        removeFromBucketList.addActionListener(new RemoveListener());
+        removeFromBucketList.addMouseListener(new RemoveAdapter());
         bucketListPanel.add(removeFromBucketList).setBounds(10, 165, 200, 25);
 
         moveToVisitedList.setEnabled(false);
-        moveToVisitedList.addActionListener(new RemoveListener());
+        moveToVisitedList.addMouseListener(new RemoveAdapter());
         bucketListPanel.add(moveToVisitedList).setBounds(10, 200, 200, 25);
     }
 
@@ -331,10 +333,10 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         visitedListPanel.add(visitedScrollPanel).setBounds(0, 50, 100, 120);
 
         visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
-        visitedListPanel.add(visitedSizeLabel).setBounds(120, 50, 130, 30);
+        visitedListPanel.add(visitedSizeLabel).setBounds(110, 50, 140, 30);
 
         visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
-        visitedListPanel.add(visitedTotalCostLabel).setBounds(120, 90, 130, 30);
+        visitedListPanel.add(visitedTotalCostLabel).setBounds(110, 90, 140, 30);
     }
 
 
@@ -344,11 +346,13 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         if (!e.getValueIsAdjusting()) {
 
             if (bucketJList.getSelectedIndex() == -1) {
-                //No selection, disable remove button
+                //No selection, disable remove and move button
                 removeFromBucketList.setEnabled(false);
+                moveToVisitedList.setEnabled(false);
             } else {
-                //Selection, enable the remove button.
+                //Selection, enable the remove and move button.
                 removeFromBucketList.setEnabled(true);
+                moveToVisitedList.setEnabled(true);
             }
         }
     }
@@ -356,10 +360,9 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
     // This listener is built following the Java8 Component-ListDemo Project.
     // Remove listener is only used by bucket list. The country on visited list can not be removed.
-    class RemoveListener implements ActionListener {
+    class RemoveAdapter extends MouseAdapter {
 
-        // Remove button will be functional only if an item is selected
-        public void actionPerformed(ActionEvent e) {
+        public void mouseClicked(MouseEvent e) {
 
             // get index and value of the selected item and remove by index
             int index = bucketJList.getSelectedIndex();
@@ -373,11 +376,19 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             try {
                 Country tempCountry = new Country(name, selectedCost);
                 travelListOut.deleteCountryToGo(tempCountry);
+                if (e.getComponent().getBounds().equals(moveToVisitedList.getBounds())) {
+
+                    visitedListModel.addElement(name);
+                    visitedCountryCost.add(selectedCost);
+                    travelListOut.addCountryVisited(tempCountry);
+                    visitedSizeInt++;
+                    visitedTotalCost += selectedCost;
+                    visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
+                    visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
+                }
             } catch (NegativeCostException ex) {
                 // this won't happen if a country is already displaying on the screen
             }
-
-
 
             // update the fields and the display
             bucketSizeInt--;
@@ -389,6 +400,39 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             if (bucketSizeInt == 0) {
                 removeFromBucketList.setEnabled(false);
             }
+        }
+
+
+        // Remove button will be functional only if an item is selected
+        public void actionPerformed(ActionEvent e) {
+
+//            // get index and value of the selected item and remove by index
+//            int index = bucketJList.getSelectedIndex();
+//            String name = bucketJList.getSelectedValue().toString();
+//            int selectedCost = bucketCountryCost.get(index);
+//
+//            bucketListModel.remove(index);
+//            bucketCountryCost.remove(index);
+//
+//            // remove this item in the output travelList too
+//            try {
+//                Country tempCountry = new Country(name, selectedCost);
+//                travelListOut.deleteCountryToGo(tempCountry);
+//            } catch (NegativeCostException ex) {
+//                // this won't happen if a country is already displaying on the screen
+//            }
+//
+//
+//            // update the fields and the display
+//            bucketSizeInt--;
+//            bucketTotalCost -= selectedCost;
+//            bucketSizeLabel.setText("# of countries: " + bucketSizeInt);
+//            bucketTotalCostLabel.setText("$ need to save: " + bucketTotalCost);
+//
+//            // once empty, disable the remove button
+//            if (bucketSizeInt == 0) {
+//                removeFromBucketList.setEnabled(false);
+//            }
         }
     }
 
