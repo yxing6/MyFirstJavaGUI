@@ -44,25 +44,15 @@ public class TravelList implements Writable {
     }
 
 
-    // EFFECTS: return the bucketList
-    public List<Country> getBucketList() {
-        return bucketList;
-    }
-
-
-    // EFFECTS: return the visitedList
-    public List<Country> getVisitedList() {
-        return visitedList;
-    }
-
     // MODIFIES: this
     // EFFECTS: a country can only on be present on the bucket list once
     //          if the country is not on the bucket list, add the country to the bucketList and return true
     //          if the country is on the bucket list, return false
     public boolean addCountryToGo(Country country) {
-        List<String> names = countriesToGo();
-        String countryName = country.getCountryName();
-        if (names.contains(countryName)) {
+//        List<String> names = countriesToGo();
+//        String countryName = country.getCountryName();
+//        if (names.contains(countryName)) {
+        if (bucketList.contains(country)) {
             return false;
         } else {
             bucketList.add(country);
@@ -72,14 +62,16 @@ public class TravelList implements Writable {
 
 
     // MODIFIES: this
-    // EFFECTS: if the country is on the bucket list, delete a country from the bucket list and return true
+    // EFFECTS: if the country is on the bucket list, delete the country from the bucket list and return true
     //          if the country is not on the bucket list, return false
     public boolean deleteCountryToGo(Country country) {
-        List<String> names = countriesToGo();
-        String countryName = country.getCountryName();
-        if (names.contains(countryName)) {
-            int index = names.indexOf(countryName);
-            bucketList.remove(index);
+//        List<String> names = countriesToGo();
+//        String countryName = country.getCountryName();
+//        if (names.contains(countryName)) {
+//            int index = names.indexOf(countryName);
+//            bucketList.remove(index);
+        if (bucketList.contains(country)) {
+            bucketList.remove(country);
             return true;
         } else {
             return false;

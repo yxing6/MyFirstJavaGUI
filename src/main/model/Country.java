@@ -57,7 +57,7 @@ public class Country implements Writable {
     @Override
     public boolean equals(Object o) {
         if (this == o) {
-            return false;
+            return true;
         }
         if (!(o instanceof Country)) {
             return false;
