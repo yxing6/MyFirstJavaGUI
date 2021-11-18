@@ -55,6 +55,7 @@ class TravelListTest {
             Country countryA = new Country("Canada", 5000);
             boolean resultA = travelList.addCountryToGo(countryA);
             assertTrue(resultA);
+            assertTrue(travelList.getBucketList().contains(countryA));
             Country countryB = new Country("Canada", 1000);
             boolean resultB = travelList.addCountryToGo(countryB);
             assertFalse(resultB);
@@ -197,7 +198,7 @@ class TravelListTest {
     }
 
     @Test
-    void testEquals() {
+    void testEqualsAndHashcode() {
         try {
             Country countryA = new Country("Canada", 5000);
             Country countryB = new Country("China", 5000);
@@ -205,6 +206,12 @@ class TravelListTest {
             assertTrue(countryA.equals(countryA));
             assertTrue(countryA.equals(countryC));
             assertFalse(countryA.equals(countryB));
+            assertFalse(countryA.equals(1));
+            assertEquals(countryA.hashCode(), countryC.hashCode());
+            assertNotEquals(countryA.hashCode(), countryB.hashCode());
+            travelList.addCountryVisited(countryA);
+            travelList.addCountryVisited(countryB);
+            travelList.addCountryVisited(countryC);
         } catch (NegativeCostException e) {
             fail("Caught unexpected NegativeCostException while the travel cost is valid");
         }

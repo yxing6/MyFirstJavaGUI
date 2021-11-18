@@ -58,9 +58,6 @@ public class TravelList implements Writable {
     //          if the country is not on the bucket list, add the country to the bucketList and return true
     //          if the country is on the bucket list, return false
     public boolean addCountryToGo(Country country) {
-//        List<String> names = countriesToGo();
-//        String countryName = country.getCountryName();
-//        if (names.contains(countryName)) {
         if (bucketList.contains(country)) {
             return false;
         } else {
@@ -74,11 +71,6 @@ public class TravelList implements Writable {
     // EFFECTS: if the country is on the bucket list, delete the country from the bucket list and return true
     //          if the country is not on the bucket list, return false
     public boolean deleteCountryToGo(Country country) {
-//        List<String> names = countriesToGo();
-//        String countryName = country.getCountryName();
-//        if (names.contains(countryName)) {
-//            int index = names.indexOf(countryName);
-//            bucketList.remove(index);
         if (bucketList.contains(country)) {
             bucketList.remove(country);
             return true;

@@ -49,8 +49,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
     private JTextField countryName;
     private JTextField countryCost;
-    private String countryNameString;
-    private int countryCostInteger;
 
     private JButton addToBucketList;
     private JButton addToVisitedList;
@@ -280,7 +278,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
-    // a JScrollPane to be used by both BucketList and VisitedList
+    // EFFECTS: return a JScrollPane
+    //          this is a helper method to be used by both BucketList and VisitedList
     public JScrollPane makeScrollPane(JList myJList) {
         myJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         myJList.setSelectedIndex(0);
@@ -289,9 +288,9 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         return listScrollPane;
     }
 
-
-    // construct a panel to the top right of the frame
-    // place bucket list, it's associated information, and a remove button special to bucketList
+    // MODIFIES: this
+    // EFFECTS: construct a panel to the top right of the frame
+    //          place bucket list, it's associated information, and a remove button special to bucketList
     public void setupBucketListPanel() {
 
         bucketListPanel = new JPanel();
@@ -318,9 +317,9 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         bucketListPanel.add(moveToVisitedList).setBounds(10, 200, 200, 25);
     }
 
-
-    // construct a panel to the bottom right of the frame
-    // place visited list, and it's associated information.
+    // MODIFIES: this
+    // EFFECTS: construct a panel to the bottom right of the frame
+    //          place visited list, and it's associated information, no remove button associated
     public void setupVisitedListPanel() {
 
         visitedListPanel = new JPanel();
@@ -339,8 +338,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         visitedListPanel.add(visitedTotalCostLabel).setBounds(110, 90, 140, 30);
     }
 
-
-    // Override method required by ListSelectionListener
+    //  method required by ListSelectionListener
+    @Override
     public void valueChanged(ListSelectionEvent e) {
 
         if (!e.getValueIsAdjusting()) {
@@ -358,7 +357,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     }
 
 
-    // This listener is built following the Java8 Component-ListDemo Project.
+    // This listener Class is built following the Java8 Component-ListDemo Project.
     // Remove listener is only used by bucket list. The country on visited list can not be removed.
     class RemoveAdapter extends MouseAdapter {
 
@@ -417,8 +416,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             visitedSizeLabel.setText("# of countries: " + visitedSizeInt);
             visitedTotalCostLabel.setText("$ spent on travel: " + visitedTotalCost);
         }
-
-
     }
 
 
@@ -443,7 +440,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         }
 
         // MODIFIES: this
-        // EFFECT: construct a new country and add the country to one of the two lists
+        // EFFECTS: construct a new country and add the country to one of the two lists
         public void actionPerformed(ActionEvent e) {
             countryNameString = countryName.getText();
             countryCostInteger = Integer.parseInt(countryCost.getText());
