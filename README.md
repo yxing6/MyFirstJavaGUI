@@ -15,7 +15,7 @@ I help you to track the cost spent on past travels and money you need to save fo
 ---  
 
 
-This project tracks travel history and potentially builds a world map to illustrate the travel history and travel plan.  
+This project tracks travel history.  
 Any travellers can use this to track their budgets.  
 I am interested in this project because I want to travel around the world!  
 
@@ -34,3 +34,11 @@ I am interested in this project because I want to travel around the world!
 
 - As a user, I want to be able to save my travel lists to a file.
 - As a user, when I start the application, I want to be given the option to load my travel list from a file.
+
+
+### Phase 3
+- As a user, I want to be able to add multiple countries to my travel list visually.  
+- As a user, I want to be able to load and save the state of the application visually.
+- As a user, I want to update my travel record after I completed my trip visually.
+    - This means adds the country to the completed list, and removes the country from bucket list visually.
+- As a user, I want to be able to see the number of countries and costs for my travel record visually.
