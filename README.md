@@ -42,3 +42,19 @@ I am interested in this project because I want to travel around the world!
 - As a user, I want to update my travel record after I completed my trip visually.
     - This means adds the country to the completed list, and removes the country from bucket list visually.
 - As a user, I want to be able to see the number of countries and costs for my travel record visually.
+
+
+### Phase 4 Task 2
+Sat Nov 20 21:52:38 PST 2021    Country(Belgium) has been added to the bucket list.
+Sat Nov 20 21:52:38 PST 2021    Country(Germany) has been added to the bucket list.
+Sat Nov 20 21:52:38 PST 2021    Country(Cuba) has been added to the bucket list.
+Sat Nov 20 21:52:38 PST 2021    Country(Brazil) has been added to the bucket list.
+Sat Nov 20 21:52:38 PST 2021    Country(Canada) has been added to the visited list.
+Sat Nov 20 21:52:38 PST 2021    Country(Russia) has been added to the visited list.
+Sat Nov 20 21:52:38 PST 2021    Country(Japan) has been added to the visited list.
+Sat Nov 20 21:52:38 PST 2021    Country(Thailand) has been added to the visited list.
+Sat Nov 20 21:52:57 PST 2021    Country(Lceland) has been added to the visited list.
+Sat Nov 20 21:53:13 PST 2021    Country(Grace) has been added to the bucket list.
+Sat Nov 20 21:53:18 PST 2021    Country(Cuba) has been removed from the bucket list.
+Sat Nov 20 21:53:18 PST 2021    Country(Cuba) has been added to the visited list.
+Sat Nov 20 21:53:25 PST 2021    Wrote UI content to file.
