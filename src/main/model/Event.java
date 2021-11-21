@@ -8,6 +8,7 @@ import java.util.Date;
  * Represents an alarm system event.
  */
 public class Event {
+    private static final String TAB = "    ";
     private static final int HASH_CONSTANT = 13;
     private Date dateLogged;
     private String description;
@@ -64,6 +65,6 @@ public class Event {
 
     @Override
     public String toString() {
-        return dateLogged.toString() + "\n" + description;
+        return dateLogged.toString() + TAB + description;
     }
 }

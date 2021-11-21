@@ -50,6 +50,7 @@ public class Country implements Writable {
     // EFFECTS:  change the cost associated to this country
     public void changeCost(int newCost) {
         travelCost = newCost;
+        EventLog.getInstance().logEvent(new Event("Travel Cost for " + this.toString() + "has changed to " + newCost));
     }
 
 
@@ -71,6 +72,13 @@ public class Country implements Writable {
     public int hashCode() {
         return countryName.hashCode();
     }
+
+    // EFFECTS: return a String representation of the country;
+    @Override
+    public String toString() {
+        return "Country(" + countryName + ")";
+    }
+
 
 
     // EFFECTS: return a JSONObject representing a country

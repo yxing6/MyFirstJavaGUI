@@ -15,6 +15,14 @@
         {
             "Country Name": "Thailand",
             "Travel Cost": 4000
+        },
+        {
+            "Country Name": "Lceland",
+            "Travel Cost": 5000
+        },
+        {
+            "Country Name": "Cuba",
+            "Travel Cost": 3000
         }
     ],
     "Bucket List": [
@@ -27,12 +35,12 @@
             "Travel Cost": 5000
         },
         {
-            "Country Name": "Cuba",
-            "Travel Cost": 3000
-        },
-        {
             "Country Name": "Brazil",
             "Travel Cost": 5000
+        },
+        {
+            "Country Name": "Grace",
+            "Travel Cost": 6000
         }
     ]
 }

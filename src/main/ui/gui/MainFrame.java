@@ -1,19 +1,19 @@
 package ui.gui;
 
 import model.Country;
+import model.Event;
+import model.EventLog;
 import model.TravelList;
 import model.exception.NegativeCostException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import sun.awt.WindowClosingListener;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,11 +74,26 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         initContentFields();
         createMenu();
         addComponentsToPane(this.getContentPane());
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                printLog();
+            }
+        });
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(WIDTH, HEIGHT);
         setResizable(false);
         setVisible(true);
+
+
+    }
+
+    public void printLog() {
+        EventLog el = EventLog.getInstance();
+        for (Event event: el) {
+            System.out.println(event.toString());
+        }
     }
 
 
@@ -208,7 +223,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
             jsonWriter.open();
             jsonWriter.write(travelListOut);
             jsonWriter.close();
-            System.out.println("Saved the travel list to " + JSON_STORE);
         } catch (FileNotFoundException e) {
             System.out.println("Unable to write to file: " + JSON_STORE);
         }

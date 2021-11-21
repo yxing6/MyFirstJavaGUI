@@ -62,6 +62,7 @@ public class TravelList implements Writable {
             return false;
         } else {
             bucketList.add(country);
+            EventLog.getInstance().logEvent(new Event(country.toString() + " has been added to the bucket list."));
             return true;
         }
     }
@@ -73,6 +74,7 @@ public class TravelList implements Writable {
     public boolean deleteCountryToGo(Country country) {
         if (bucketList.contains(country)) {
             bucketList.remove(country);
+            EventLog.getInstance().logEvent(new Event(country.toString() + " has been removed from the bucket list."));
             return true;
         } else {
             return false;
@@ -97,6 +99,7 @@ public class TravelList implements Writable {
             return false;
         } else {
             visitedList.add(country);
+            EventLog.getInstance().logEvent(new Event(country.toString() + " has been added to the visited list."));
             return true;
         }
     }
@@ -166,6 +169,7 @@ public class TravelList implements Writable {
         JSONObject json = new JSONObject();
         json.put("Bucket List", countriesToJson(bucketList));
         json.put("Visited List", countriesToJson(visitedList));
+        EventLog.getInstance().logEvent(new Event("Wrote UI content to file."));
         return json;
     }
 
