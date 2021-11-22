@@ -5,7 +5,7 @@ import java.util.Date;
 
 
 /**
- * Represents an alarm system event.
+ * Represents any event happened in application GUI.
  */
 public class Event {
     private static final String TAB = "    ";
