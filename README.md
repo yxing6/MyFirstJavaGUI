@@ -45,21 +45,21 @@ I am interested in this project because I want to travel around the world!
 
 
 ### Phase 4: Task 2
-Wed Nov 24 17:21:06 PST 2021    Country(Belgium) has been added to the bucket list.
-Wed Nov 24 17:21:06 PST 2021    Country(Germany) has been added to the bucket list.
-Wed Nov 24 17:21:06 PST 2021    Country(Brazil) has been added to the bucket list.
-Wed Nov 24 17:21:06 PST 2021    Country(Grace) has been added to the bucket list.
-Wed Nov 24 17:21:06 PST 2021    Country(Canada) has been added to the visited list.
-Wed Nov 24 17:21:06 PST 2021    Country(Russia) has been added to the visited list.
-Wed Nov 24 17:21:06 PST 2021    Country(Japan) has been added to the visited list.
-Wed Nov 24 17:21:06 PST 2021    Country(Thailand) has been added to the visited list.
-Wed Nov 24 17:21:06 PST 2021    Country(Iceland) has been added to the visited list.
-Wed Nov 24 17:21:06 PST 2021    Country(Cuba) has been added to the visited list.
-Wed Nov 24 17:22:11 PST 2021    Country(Egypt) has been added to the bucket list.
-Wed Nov 24 17:22:47 PST 2021    Country(Spain) has been added to the visited list.
-Wed Nov 24 17:22:52 PST 2021    Country(Egypt) has been removed from the bucket list.
-Wed Nov 24 17:22:52 PST 2021    Country(Egypt) has been added to the visited list.
-Wed Nov 24 17:22:56 PST 2021    UI content has been saved to file.
+Wed Nov 24 17:21:06 PST 2021    Country(Belgium) has been added to the bucket list.  
+Wed Nov 24 17:21:06 PST 2021    Country(Germany) has been added to the bucket list.  
+Wed Nov 24 17:21:06 PST 2021    Country(Brazil) has been added to the bucket list.  
+Wed Nov 24 17:21:06 PST 2021    Country(Grace) has been added to the bucket list.  
+Wed Nov 24 17:21:06 PST 2021    Country(Canada) has been added to the visited list.  
+Wed Nov 24 17:21:06 PST 2021    Country(Russia) has been added to the visited list.  
+Wed Nov 24 17:21:06 PST 2021    Country(Japan) has been added to the visited list.  
+Wed Nov 24 17:21:06 PST 2021    Country(Thailand) has been added to the visited list.  
+Wed Nov 24 17:21:06 PST 2021    Country(Iceland) has been added to the visited list.  
+Wed Nov 24 17:21:06 PST 2021    Country(Cuba) has been added to the visited list.  
+Wed Nov 24 17:22:11 PST 2021    Country(Egypt) has been added to the bucket list.  
+Wed Nov 24 17:22:47 PST 2021    Country(Spain) has been added to the visited list.  
+Wed Nov 24 17:22:52 PST 2021    Country(Egypt) has been removed from the bucket list.  
+Wed Nov 24 17:22:52 PST 2021    Country(Egypt) has been added to the visited list.  
+Wed Nov 24 17:22:56 PST 2021    UI content has been saved to file.  
 
 
 ### Phase 4: Task 3
