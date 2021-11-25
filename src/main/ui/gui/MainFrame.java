@@ -7,7 +7,6 @@ import model.TravelList;
 import model.exception.NegativeCostException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import sun.awt.WindowClosingListener;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -373,7 +372,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
     // This listener Class is built following the Java8 Component-ListDemo Project.
     // Remove listener is only used by bucket list. The country on visited list can not be removed.
-    class RemoveAdapter extends MouseAdapter {
+    private class RemoveAdapter extends MouseAdapter {
 
         private int index;
         private String name;
@@ -435,7 +434,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
     // This listener is built following the Java8 Component-ListDemo Project
     // Class AddListener is shared by the text field and the add button for Bucket and Visited Lists
-    class AddListener implements ActionListener {
+    private class AddListener implements ActionListener {
 
         private DefaultListModel modelList;
         private List costList;

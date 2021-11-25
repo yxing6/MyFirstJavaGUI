@@ -17,12 +17,20 @@
             "Travel Cost": 4000
         },
         {
-            "Country Name": "Lceland",
+            "Country Name": "Iceland",
             "Travel Cost": 5000
         },
         {
             "Country Name": "Cuba",
             "Travel Cost": 3000
+        },
+        {
+            "Country Name": "Spain",
+            "Travel Cost": 5000
+        },
+        {
+            "Country Name": "Egypt",
+            "Travel Cost": 5000
         }
     ],
     "Bucket List": [

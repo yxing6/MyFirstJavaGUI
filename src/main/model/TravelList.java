@@ -169,7 +169,7 @@ public class TravelList implements Writable {
         JSONObject json = new JSONObject();
         json.put("Bucket List", countriesToJson(bucketList));
         json.put("Visited List", countriesToJson(visitedList));
-        EventLog.getInstance().logEvent(new Event("Wrote UI content to file."));
+        EventLog.getInstance().logEvent(new Event("UI content has been saved to file."));
         return json;
     }
 
