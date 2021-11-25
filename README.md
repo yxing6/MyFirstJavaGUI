@@ -44,7 +44,7 @@ I am interested in this project because I want to travel around the world!
 - As a user, I want to be able to see the number of countries and costs for my travel record visually.
 
 
-### Phase 4 Task 2
+### Phase 4: Task 2
 Wed Nov 24 17:21:06 PST 2021    Country(Belgium) has been added to the bucket list.
 Wed Nov 24 17:21:06 PST 2021    Country(Germany) has been added to the bucket list.
 Wed Nov 24 17:21:06 PST 2021    Country(Brazil) has been added to the bucket list.
@@ -60,3 +60,16 @@ Wed Nov 24 17:22:47 PST 2021    Country(Spain) has been added to the visited lis
 Wed Nov 24 17:22:52 PST 2021    Country(Egypt) has been removed from the bucket list.
 Wed Nov 24 17:22:52 PST 2021    Country(Egypt) has been added to the visited list.
 Wed Nov 24 17:22:56 PST 2021    UI content has been saved to file.
+
+
+### Phase 4: Task 3
+In the current design, class TravelList hosts two lists, each contains multiple countries.  
+
+Modification 1:  
+I would do is to introduce a class to be a generic list of countries.   
+Then a BucketList extending GenericList, a VisitedList extending GenericList.   
+Each of these class will need to implement their own version or override method addCountry.   
+BucketList will have one more deleteCountry method.  
+
+Modification 2:  
+I would change the class type from List to Set because no duplicate country is allowed in the classes.
