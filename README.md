@@ -9,4 +9,5 @@ This project was developed with the help from the entire instruction team of CPS
 4. Design decision   
 
 Code were tested during the implementation, and all changes are committed regularly.   
-I tried my best writing this program; however, I also acknowledge that the final GUI is very redundant and there are plenty room for improvement. Stay tuned for updates on version 2! 
+I tried my best writing this program; however, I also acknowledge that the final GUI is lengthy and inefficient.   
+There are plenty room for improvement. Stay tuned for major upgrade on version 2! 
