@@ -7,6 +7,7 @@ This project was developed with the help from the entire instruction team of CPS
 2. Data persistence 
 3. Graphical User Interface 
 4. Design decision   
+![Figure. GUI window for MyFirstJava project](https://github.com/yxing6/MyFirstJavaGUI/blob/main/Project_GUI.JPG)  
 
 Code were tested during the implementation, and all changes are committed regularly.   
 I tried my best writing this program; however, I also acknowledge that the final GUI is lengthy and inefficient.   
