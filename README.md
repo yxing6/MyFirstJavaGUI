@@ -8,7 +8,7 @@ This project was developed with the help from the entire instruction team of CPS
 3. Graphical User Interface 
 4. Design decision   
 
-<img src="Project_GUI.JPG" alt="drawing" width="400"/>
+<img src="Project_GUI.JPG" alt="drawing" width="600"/>
 
 Code were tested during the implementation, and all changes are committed regularly.   
 I tried my best writing this program; however, I also acknowledge that the final GUI is lengthy and inefficient.   
