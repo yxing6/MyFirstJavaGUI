@@ -1,4 +1,4 @@
-**Welcome to my first Java Project**
+### Welcome to my first Java Project
 
 This GUI application allow users to track their travel records and update their bucket list!  
 
